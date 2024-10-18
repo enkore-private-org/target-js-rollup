@@ -1,3 +1,5 @@
+import ts from "typescript"
+
 export async function tsInvokeTypeScript(
 	host, input_files, compiler_options
 ) {
