@@ -15,6 +15,7 @@ export async function jsBundler(
 	project_root, entry_code, {
 		input_file_type = "mjs",
 		minify = false,
+		treeshake = true,
 		additional_plugins = [],
 		on_rollup_log_fn = null
 	} = {}
@@ -36,7 +37,8 @@ export async function jsBundler(
 			input: Object.keys(virtual_entries)[0],
 			output: {
 				format: "es"
-			}
+			},
+			treeshake
 		}
 
 		const rollup_plugins = [virtual(virtual_entries)]
