@@ -22,7 +22,7 @@ export type DefaultExportObject = {
 	tsReadTSConfigFile : TsReadTSConfigFile,
 	tsInvokeTypeScript : TsInvokeTypeScript,
 	tsBundler : TsBundler,
-	ts : typeof ts,
+	ts : any, /* rollup-dts can't bundle typescript types rollup-plugin-dts#162 */
 	jsBundler: JsBundler,
 	jsResolveImportAliases : JsResolveImportAliases
 }
