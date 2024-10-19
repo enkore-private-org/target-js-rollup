@@ -11,7 +11,9 @@ import {jsResolveImportAliases} from "./js/resolveImportAliases.mjs"
 export type TsStripTypesFromCode = typeof tsStripTypesFromCode
 export type TsReadTSConfigFile = typeof tsReadTSConfigFile
 export type TsInvokeTypeScript = typeof tsInvokeTypeScript
+export type {TsBundlerOptions} from "./ts/bundler.mjs"
 export type TsBundler = typeof tsBundler
+export type {JsBundlerOptions, JsBundlerPlugin, JsBundlerInputFileType} from "./js/bundler.mjs"
 export type JsBundler = typeof jsBundler
 export type JsResolveImportAliases = typeof jsResolveImportAliases
 
