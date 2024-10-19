@@ -63,7 +63,7 @@ export async function jsBundler(
 
 		if (input_file_type === "dts") {
 			const compiler_options = await tsReadTSConfigFile(
-				path.join(project_root, "tsconfig.json")
+				path.join(project_root, "tsconfig.json"), project_root
 			)
 
 			rollup_plugins.push(dts_resolver(project_root))
