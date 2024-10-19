@@ -15,7 +15,17 @@ export type TsBundler = typeof tsBundler
 export type JsBundler = typeof jsBundler
 export type JsResolveImportAliases = typeof jsResolveImportAliases
 
-export default {
+export type DefaultExportObject = {
+	tsStripTypesFromCode : TsStripTypesFromCode,
+	tsReadTSConfigFile : TsReadTSConfigFile,
+	tsInvokeTypeScript : TsInvokeTypeScript,
+	tsBundler : TsBundler,
+	ts : typeof ts,
+	jsBundler: JsBundler,
+	jsResolveImportAliases : JsResolveImportAliases
+}
+
+const _default : DefaultExportObject = {
 	tsStripTypesFromCode,
 	tsReadTSConfigFile,
 	tsInvokeTypeScript,
@@ -24,3 +34,5 @@ export default {
 	jsBundler,
 	jsResolveImportAliases
 }
+
+export default _default
