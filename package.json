@@ -9,7 +9,10 @@
     "url": "git+https://github.com/fourtune-org/realm-js-and-web-utilities.git"
   },
   "exports": {
-    ".": "./src/index.mjs"
+    ".": {
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.mts"
+    }
   },
   "dependencies": {
     "@babel/core": "^7.25.8",
