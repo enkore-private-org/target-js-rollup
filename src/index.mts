@@ -8,6 +8,13 @@ import * as ts from "typescript"
 import {jsBundler} from "./js/bundler.mjs"
 import {jsResolveImportAliases} from "./js/resolveImportAliases.mjs"
 
+export type TsStripTypesFromCode = typeof tsStripTypesFromCode
+export type TsReadTSConfigFile = typeof tsReadTSConfigFile
+export type TsInvokeTypeScript = typeof tsInvokeTypeScript
+export type TsBundler = typeof tsBundler
+export type JsBundler = typeof jsBundler
+export type JsResolveImportAliases = typeof jsResolveImportAliases
+
 export default {
 	tsStripTypesFromCode,
 	tsReadTSConfigFile,
