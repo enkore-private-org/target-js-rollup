@@ -1,7 +1,8 @@
 import ts from "typescript"
+import type {CompilerHost, CompilerOptions} from "typescript"
 
 export async function tsInvokeTypeScript(
-	host, input_files, compiler_options
+	host : CompilerHost, input_files : string[], compiler_options : CompilerOptions
 ) {
 	if (host === null) host = ts.createCompilerHost(compiler_options)
 
@@ -18,6 +19,7 @@ export async function tsInvokeTypeScript(
 		const message = ts.flattenDiagnosticMessageText(messageText, "\n")
 
 		if (diagnostic.file) {
+			// @ts-ignore:next-line
 			const {line, character} = ts.getLineAndCharacterOfPosition(diagnostic.file, diagnostic.start)
 
 			diagnostic_messages.push({

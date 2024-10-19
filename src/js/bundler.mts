@@ -11,14 +11,31 @@ import dts_resolver from "./bundler/dts_resolver.mjs"
 import {tsReadTSConfigFile} from "../ts/readTSConfigFile.mjs"
 import {dts} from "rollup-plugin-dts"
 
+import type {RollupOptions} from "rollup"
+
+export type JsBundlerInputFileType = "mjs" | "dts"
+
+export type JsBundlerPlugin = {
+	when : "pre" | "post"
+	plugin : any
+}
+
+export type JsBundlerOptions = {
+	input_file_type? : JsBundlerInputFileType
+	minify? : boolean
+	treeshake? : boolean
+	additional_plugins? : JsBundlerPlugin[]
+	on_rollup_log_fn? : ((...args: any[]) => any) | null
+}
+
 export async function jsBundler(
-	project_root, entry_code, {
+	project_root : string, entry_code : string, {
 		input_file_type = "mjs",
 		minify = false,
 		treeshake = true,
 		additional_plugins = [],
 		on_rollup_log_fn = null
-	} = {}
+	} : JsBundlerOptions = {}
 ) {
 	const options = {input_file_type}
 	const plugins = sortAdditionalPlugins(additional_plugins)
@@ -33,7 +50,7 @@ export async function jsBundler(
 	try {
 		const virtual_entries = createVirtualEntry(options, entry_code)
 
-		const rollup_options = {
+		const rollup_options : RollupOptions = {
 			input: Object.keys(virtual_entries)[0],
 			output: {
 				format: "es"
@@ -41,6 +58,7 @@ export async function jsBundler(
 			treeshake
 		}
 
+		// @ts-ignore:next-line
 		const rollup_plugins = [virtual(virtual_entries)]
 
 		if (input_file_type === "dts") {
@@ -62,10 +80,12 @@ export async function jsBundler(
 				}
 			}))
 		} else if (input_file_type === "mjs") {
+			// @ts-ignore:next-line
 			rollup_plugins.push(resolveNode())
 		}
 
 		if (input_file_type === "mjs" && minify) {
+			// @ts-ignore:next-line
 			rollup_plugins.push(terser())
 		}
 
@@ -83,6 +103,7 @@ export async function jsBundler(
 			}
 		})
 
+		// @ts-ignore:next-line
 		const {output} = await bundle.generate(rollup_options.output)
 
 		return output[0].code

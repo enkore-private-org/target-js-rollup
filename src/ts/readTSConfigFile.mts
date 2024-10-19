@@ -2,13 +2,13 @@ import ts from "typescript"
 import fs from "node:fs/promises"
 
 export async function tsReadTSConfigFile(
-	tsconfig_path
+	tsconfig_path : string
 ) {
 	const tsconfig_data = await fs.readFile(tsconfig_path)
 	const tsconfig = JSON.parse(tsconfig_data.toString())
 
 	const {errors, options} = ts.convertCompilerOptionsFromJson(
-		tsconfig.compilerOptions
+		tsconfig.compilerOptions, "/"
 	)
 
 	if (errors.length) {

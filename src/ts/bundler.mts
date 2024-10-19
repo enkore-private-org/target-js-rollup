@@ -1,20 +1,29 @@
+import type {JsBundlerPlugin} from "../js/bundler.mjs"
 import {jsBundler} from "../js/bundler.mjs"
 import {tsStripTypesFromCode} from "./stripTypesFromCode.mjs"
 import {jsResolveImportAliases } from "../js/resolveImportAliases.mjs"
 
+export type TsBundlerOptions = {
+	minify? : boolean
+	treeshake? : boolean
+	additional_plugins? : JsBundlerPlugin[],
+	aliases? : any,
+	on_rollup_log_fn? : ((...args: any[]) => any) | null
+}
+
 export async function tsBundler(
-	project_root, entry_code, {
+	project_root : string, entry_code : string, {
 		minify = false,
 		treeshake = true,
 		additional_plugins = [],
 		aliases = {},
 		on_rollup_log_fn = null
-	} = {}
-) {
-	const plugin = {
+	} : TsBundlerOptions = {}
+) : Promise<string> {
+	const plugin : JsBundlerPlugin = {
 		when: "pre",
 		plugin: {
-			async transform(code, id) {
+			async transform(code : string, id : string) {
 				if (!id.endsWith(".mts")) return null
 
 				const {code: js} = await tsStripTypesFromCode(

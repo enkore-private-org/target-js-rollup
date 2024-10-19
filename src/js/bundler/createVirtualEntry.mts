@@ -1,4 +1,8 @@
-export default function({input_file_type}, entry_code) {
+import type {JsBundlerOptions} from "../bundler.mjs"
+
+export default function(options : JsBundlerOptions, entry_code : string) {
+	const {input_file_type} = options
+
 	if (input_file_type === "mjs") {
 		return {
 			"virtual_entry.mjs": entry_code

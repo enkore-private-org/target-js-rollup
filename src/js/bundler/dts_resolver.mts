@@ -1,14 +1,14 @@
 import path from "node:path"
 
-function isModuleTypeScriptFile(id) {
+function isModuleTypeScriptFile(id : string) {
 	return id.endsWith(".mts") && !id.endsWith(".d.mts")
 }
 
-export default function(project_root) {
+export default function(project_root : string) {
 	return {
 		id: "jsbundler-dts-resolver",
 
-		resolveId(id) {
+		resolveId(id : string) {
 			// mark all "node:" imports as external
 			if (id.startsWith("node:")) {
 				return {id, external: true}

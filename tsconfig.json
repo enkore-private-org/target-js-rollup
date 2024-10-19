@@ -1,0 +1,17 @@
+{
+	"compilerOptions": {
+		"allowSyntheticDefaultImports": true,
+		"types": ["@types/node"],
+		"skipLibCheck": true,
+		"strict": true,
+		"target": "esnext",
+		"module": "nodenext",
+		"moduleResolution": "nodenext",
+		"outDir": "./dist",
+		"declaration": true,
+		"declarationDir": "./dist"
+	},
+	"include": [
+		"./src/"
+	]
+}
