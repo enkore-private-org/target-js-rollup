@@ -1,6 +1,7 @@
 import {rollup} from "rollup"
 import {dts} from "rollup-plugin-dts"
 import fs from "node:fs/promises"
+import { type } from "node:os"
 
 await fs.mkdir("dist.types")
 
@@ -16,8 +17,14 @@ let package_json = JSON.parse(package_json_str)
 
 package_json["name"] += "-types"
 
+const typescript = package_json["dependencies"]["typescript"]
+
 delete package_json["dependencies"]
 delete package_json["devDependencies"]
+
+package_json["dependencies"] = {
+	"typescript": typescript
+}
 
 package_json["exports"]["."]["import"] = ""
 package_json["exports"]["."]["types"] = "./index.d.mts"

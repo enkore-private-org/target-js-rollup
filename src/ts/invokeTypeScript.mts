@@ -1,8 +1,8 @@
+import type {CompilerHost, CompilerOptions} from "typescript"
 import ts from "typescript"
 
-/* rollup-dts can't bundle typescript types rollup-plugin-dts#162 */
 export async function tsInvokeTypeScript(
-	host : any, input_files : string[], compiler_options : any
+	host : CompilerHost, input_files : string[], compiler_options : CompilerOptions
 ) {
 	if (host === null) host = ts.createCompilerHost(compiler_options)
 
