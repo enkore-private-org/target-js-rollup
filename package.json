@@ -1,12 +1,12 @@
 {
-  "name": "@fourtune/realm-js-and-web-utilities",
+  "name": "@fourtune/base-realm-js-and-web",
   "version": "0.0.16",
   "description": "",
   "author": "Anio Software <info@anio.software>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fourtune-org/realm-js-and-web-utilities.git"
+    "url": "git+https://github.com/fourtune-org/base-realm-js-and-web.git"
   },
   "exports": {
     ".": {
