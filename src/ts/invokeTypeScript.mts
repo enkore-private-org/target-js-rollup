@@ -1,7 +1,8 @@
 import type {CompilerHost, CompilerOptions} from "typescript"
 import ts from "typescript"
+import process from "node:process"
 
-export async function tsInvokeTypeScript(
+async function tsInvokeTypeScriptImpl(
 	host : CompilerHost, input_files : string[], compiler_options : CompilerOptions
 ) {
 	if (host === null) host = ts.createCompilerHost(compiler_options)
@@ -34,5 +35,24 @@ export async function tsInvokeTypeScript(
 	return {
 		errors: result.emitSkipped,
 		diagnostic_messages
+	}
+}
+
+export async function tsInvokeTypeScript(
+	project_root : string,
+	host : CompilerHost,
+	input_files : string[],
+	compiler_options : CompilerOptions
+) {
+	const saved = process.cwd()
+
+	try {
+		process.chdir(project_root)
+
+		return await tsInvokeTypeScriptImpl(
+			host, input_files, compiler_options
+		)
+	} finally {
+		process.chdir(saved)
 	}
 }
