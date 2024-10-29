@@ -62,8 +62,9 @@ export async function jsBundler(
 		const rollup_plugins = [virtual(virtual_entries)]
 
 		if (input_file_type === "dts") {
+			// todo: don't use hardcoded base path :\
 			const compiler_options = await tsReadTSConfigFile(
-				path.join(project_root, "tsconfig.json"), project_root
+				path.join(project_root, "auto", "cfg", "tsconfig.base.json"), project_root
 			)
 
 			rollup_plugins.push(dts_resolver(project_root))
@@ -72,6 +73,9 @@ export async function jsBundler(
 				respectExternal: true,
 				compilerOptions: {
 					...compiler_options,
+					// overwrite baseUrl since config resides
+					// inside auto/cfg/ folder
+					baseUrl: "./",
 					//
 					// overwrite paths alias since
 					// those will be resolved by "dts_resolver"
