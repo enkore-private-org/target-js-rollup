@@ -25,7 +25,7 @@ export async function tsGetDeclaredExportNamesFromCode(
 					}
 				} else if (node.declaration.type === "VariableDeclaration") {
 					if (node.declaration.declarations.length !== 1) {
-						throw new Error(`Error`)
+						throw new Error(`tsGetDeclaredExportNamesFromCode: error condition 1`)
 					}
 
 					const tmp = node.declaration.declarations[0].id
@@ -41,7 +41,7 @@ export async function tsGetDeclaredExportNamesFromCode(
 					}
 				}
 			} else {
-				throw new Error(`Error`)
+				throw new Error(`tsGetDeclaredExportNamesFromCode: error condition 2`)
 			}
 
 			if (export_name.length) {
