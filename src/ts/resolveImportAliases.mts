@@ -1,4 +1,5 @@
 import * as ts from "typescript"
+import type {TsResolveImportAliasesOptions} from "@fourtune/types/base-realm-js-and-web/v0/"
 import type {TsAliases} from "@fourtune/types/base-realm-js-and-web/v0/"
 
 function transformerFactory(
@@ -44,7 +45,7 @@ function transformerFactory(
 export async function tsResolveImportAliases(
 	code : string, {
 		aliases = {}
-	} = {}
+	} : TsResolveImportAliasesOptions = {}
 ) {
 	const source_file = ts.createSourceFile(
 		"input.d.mts",
