@@ -2,9 +2,30 @@ import * as ts from "typescript"
 import type {TsResolveImportAliasesOptions} from "@fourtune/types/base-realm-js-and-web/v0/"
 import type {TsAliases} from "@fourtune/types/base-realm-js-and-web/v0/"
 
+function sortAliases(aliases : TsAliases) {
+	let sorted = []
+
+	for (const key in aliases) {
+		sorted.push({key, value: aliases[key]})
+	}
+
+	sorted.sort((a, b) => {
+		return b.key.length - a.key.length
+	})
+
+	return sorted.map(entry => {
+		return {
+			alias: entry.key,
+			substitute: entry.value
+		}
+	})
+}
+
 function transformerFactory(
 	aliases : TsAliases
 ) {
+	const sorted_aliases = sortAliases(aliases)
+
 	return function transformer(context: ts.TransformationContext) {
 		return (root_node: ts.Node) => {
 			const visit = (node: ts.Node) : ts.Node => {
@@ -17,10 +38,10 @@ function transformerFactory(
 
 					let new_import_specifier = import_specifier
 
-					for (const alias in aliases) {
+					for (const {alias, substitute} of sorted_aliases) {
 						if (import_specifier.startsWith(alias)) {
 							new_import_specifier = import_specifier.slice(alias.length)
-							new_import_specifier = `${aliases[alias]}${new_import_specifier}`
+							new_import_specifier = `${substitute}${new_import_specifier}`
 
 							break
 						}
