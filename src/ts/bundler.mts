@@ -26,12 +26,12 @@ export async function tsBundler(
 			async transform(code : string, id : string) {
 				if (!id.endsWith(".mts")) return null
 
-				const {code: js} = await tsStripTypesFromCode(
+				const js_code = await tsStripTypesFromCode(
 					code, {replace_import_extensions: false}
 				)
 
 				return await jsResolveImportAliases(
-					js, {aliases}
+					js_code, {aliases}
 				)
 			}
 		}

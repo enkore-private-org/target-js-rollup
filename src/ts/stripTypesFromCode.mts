@@ -13,7 +13,7 @@ export async function tsStripTypesFromCode(
 		filename = "index.mts",
 		replace_import_extensions = false
 	} : TsStripTypesFromCodeOptions = {}
-) : Promise<{code: string, ast : any}> {
+) : Promise<string> {
 	if (!filename.endsWith(".mts")) {
 		throw new Error(
 			`Filename must end with ".mts".`
@@ -29,7 +29,7 @@ export async function tsStripTypesFromCode(
 		filename: filename
 	}
 
-	return await babel.transformAsync(
+	return (await babel.transformAsync(
 		code, options
-	)
+	)).code
 }
