@@ -44,11 +44,12 @@ function transformerFactory(
 
 export async function tsResolveImportAliases(
 	code : string, {
+		filename = "index.d.mts",
 		aliases = {}
 	} : TsResolveImportAliasesOptions = {}
 ) {
 	const source_file = ts.createSourceFile(
-		"input.d.mts",
+		filename,
 		code,
 		ts.ScriptTarget.ESNext
 	)
