@@ -15,7 +15,7 @@ export async function jsResolveImportAliases(
 		filename = "index.mjs",
 		aliases = {}
 	} : ResolveImportAliasesOptions = {}
-) {
+) : Promise<string> {
 	if (!filename.endsWith(".mjs")) {
 		throw new Error(
 			`Filename must end with ".mjs".`

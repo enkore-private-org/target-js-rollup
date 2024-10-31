@@ -30,9 +30,9 @@ export async function tsBundler(
 					code, {replace_import_extensions: false}
 				)
 
-				return (await jsResolveImportAliases(
+				return await jsResolveImportAliases(
 					js, {aliases}
-				)).code
+				)
 			}
 		}
 	}
