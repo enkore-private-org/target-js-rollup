@@ -1,11 +1,8 @@
 import * as ts from "typescript"
-
-type Aliases = {
-	[key : string] : string
-}
+import type {TsAliases} from "@fourtune/types/base-realm-js-and-web/v0/"
 
 function transformerFactory(
-	aliases : Aliases
+	aliases : TsAliases
 ) {
 	return function transformer(context: ts.TransformationContext) {
 		return (root_node: ts.Node) => {

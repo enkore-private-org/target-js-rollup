@@ -3,9 +3,11 @@ import babel from "@babel/core"
 // @ts-ignore:next-line
 import moduleResolver from "babel-plugin-module-resolver"
 
+import type {JsAliases} from "@fourtune/types/base-realm-js-and-web/v0/"
+
 export type ResolveImportAliasesOptions = {
 	filename? : string
-	aliases? : any
+	aliases? : JsAliases
 }
 
 export async function jsResolveImportAliases(
