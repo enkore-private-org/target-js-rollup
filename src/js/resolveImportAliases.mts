@@ -22,7 +22,7 @@ export async function jsResolveImportAliases(
 		)
 	}
 
-	return await babel.transformAsync(
+	return (await babel.transformAsync(
 		code, {
 			plugins: [
 				[moduleResolver, {
@@ -30,5 +30,5 @@ export async function jsResolveImportAliases(
 				}]
 			]
 		}
-	)
+	)).code
 }
