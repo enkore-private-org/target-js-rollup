@@ -13,6 +13,8 @@ import * as ts from "typescript"
 import {jsBundler} from "./js/bundler.mjs"
 import {jsResolveImportAliases} from "./js/resolveImportAliases.mjs"
 import {jsGetRequestedAssetsFromCode} from "./js/getRequestedAssetsFromCode.mjs"
+import {jsNormalizePath} from "./js/normalizePath.mjs"
+import {jsParseAssetURL} from "./js/parseAssetURL.mjs"
 
 const _default : DefaultExportObject = {
 	tsStripTypesFromCode,
@@ -25,7 +27,9 @@ const _default : DefaultExportObject = {
 	jsResolveImportAliases,
 	jsGetDeclaredExportNamesFromCode,
 	tsResolveImportAliases,
-	jsGetRequestedAssetsFromCode
+	jsGetRequestedAssetsFromCode,
+	jsNormalizePath,
+	jsParseAssetURL
 }
 
 export default _default
