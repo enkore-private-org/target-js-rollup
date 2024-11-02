@@ -35,6 +35,11 @@ export function jsGetRequestedAssetsFromCode(code : string) {
 			let is_call_to_getAsset = false
 
 			for (const specifier of module_node.specifiers) {
+				// ignore default imports
+				if (specifier.type === "ImportDefaultSpecifier") {
+					continue
+				}
+
 				if (
 					// local name is the name used in the scope
 					// {getAsset as localName}
