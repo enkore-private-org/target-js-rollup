@@ -6,8 +6,11 @@ import {parse} from "@babel/core"
 // see https://github.com/babel/babel/issues/13855
 const traverse = _traverse.default
 
-export function jsGetRequestedAssetsFromCode(code : string) {
-	let asset_urls : false|string[] = []
+import {jsParseAssetURL} from "./parseAssetURL.mjs"
+import type {JsParseAssetURLResult} from "@fourtune/types/base-realm-js-and-web/v0/"
+
+export async function jsGetRequestedAssetsFromCode(code : string) {
+	let asset_urls : false|JsParseAssetURLResult[] = []
 
 	const ast = parse(code, {
 		sourceType: "module"
@@ -80,7 +83,13 @@ export function jsGetRequestedAssetsFromCode(code : string) {
 				return
 			}
 
-			(asset_urls as string[]).push(url_param.value)
+			if (asset_urls === false) {
+				throw new Error(`shouldn't be able to be here`)
+			} else {
+				asset_urls.push(
+					jsParseAssetURL(url_param.value)
+				)
+			}
 		}
 	})
 
