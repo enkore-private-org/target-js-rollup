@@ -27,7 +27,15 @@ export async function jsGetRequestedAssetsFromCode(
 		Identifier(path : any) {
 			const binding_name = path.node.name
 
-			if (!pathResolvesToFourtuneGetAssetExport(path, binding_name)) {
+			const tmp = pathResolvesToFourtuneGetAssetExport(path, binding_name)
+
+			if (tmp === false) {
+				return
+			} else if (tmp === "unknown") {
+				asset_urls = false
+
+				path.stop()
+
 				return
 			}
 
