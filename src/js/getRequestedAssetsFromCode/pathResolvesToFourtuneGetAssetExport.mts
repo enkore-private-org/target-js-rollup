@@ -2,7 +2,7 @@ const fourtune_assets_module = "@fourtune/realm-js/assets"
 
 export function pathResolvesToFourtuneGetAssetExport(
 	path : any, binding_name : string
-) : boolean {
+) : boolean|"unknown" {
 	const binding = path.scope.getBinding(binding_name)
 
 	if (!binding) return false
@@ -21,6 +21,12 @@ export function pathResolvesToFourtuneGetAssetExport(
 		// ignore default imports
 		if (specifier.type === "ImportDefaultSpecifier") {
 			continue
+		}
+		// handle star imports
+		if (specifier.type === "ImportNamespaceSpecifier") {
+			if (module_node.source.value === fourtune_assets_module) {
+				return "unknown"
+			}
 		}
 
 		if (
