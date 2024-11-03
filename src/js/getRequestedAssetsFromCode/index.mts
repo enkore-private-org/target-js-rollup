@@ -33,9 +33,7 @@ export async function jsGetRequestedAssetsFromCode(
 				return
 			} else if (tmp === "unknown") {
 				asset_urls = false
-
 				path.stop()
-
 				return
 			}
 
@@ -49,9 +47,7 @@ export async function jsGetRequestedAssetsFromCode(
 			// this is the worst case
 			if (parent_path.node.type !== "CallExpression") {
 				asset_urls = false
-
 				path.stop()
-
 				return
 			}
 
@@ -60,9 +56,7 @@ export async function jsGetRequestedAssetsFromCode(
 			// we don't know what this call to getAsset is requesting
 			if (result === false) {
 				asset_urls = false
-
 				path.stop()
-
 				return
 			}
 
