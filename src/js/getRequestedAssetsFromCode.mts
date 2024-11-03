@@ -9,8 +9,10 @@ const traverse = _traverse.default
 import {jsParseAssetURL} from "./parseAssetURL.mjs"
 import type {JsParseAssetURLResult} from "@fourtune/types/base-realm-js-and-web/v0/"
 
-export async function jsGetRequestedAssetsFromCode(code : string) {
-	let asset_urls : false|JsParseAssetURLResult[] = []
+export async function jsGetRequestedAssetsFromCode(
+	code : string
+) : Promise<false|JsParseAssetURLResult[]> {
+	let asset_urls : false|JsParseAssetURLResult[]|null = null
 
 	const ast = parse(code, {
 		sourceType: "module"
@@ -85,13 +87,21 @@ export async function jsGetRequestedAssetsFromCode(code : string) {
 
 			if (asset_urls === false) {
 				throw new Error(`shouldn't be able to be here`)
-			} else {
-				asset_urls.push(
-					jsParseAssetURL(url_param.value)
-				)
 			}
+			// initialize array
+			else if (asset_urls === null) {
+				asset_urls = []
+			}
+
+			asset_urls.push(
+				jsParseAssetURL(url_param.value)
+			)
 		}
 	})
+
+	// did not find any calls to "getAsset",
+	// second worst case scenario
+	if (asset_urls === null) return false
 
 	return asset_urls
 }
