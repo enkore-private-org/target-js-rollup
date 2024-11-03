@@ -6,8 +6,10 @@ import {parse} from "@babel/core"
 // see https://github.com/babel/babel/issues/13855
 const traverse = _traverse.default
 
-import {jsParseAssetURL} from "../parseAssetURL.mjs"
 import type {JsParseAssetURLResult} from "@fourtune/types/base-realm-js-and-web/v0/"
+
+import {pathResolvesToFourtuneGetAssetExport} from "./pathResolvesToFourtuneGetAssetExport.mjs"
+import {processCallExpression} from "./processCallExpression.mjs"
 
 export async function jsGetRequestedAssetsFromCode(
 	code : string
@@ -19,65 +21,33 @@ export async function jsGetRequestedAssetsFromCode(
 	})
 
 	traverse(ast, {
-		CallExpression(path : any) {
-			//
-			// get the binding for the callee
-			//
-			const binding = path.scope.getBinding(path.node.callee.name)
+		Identifier(path : any) {
+			const binding_name = path.node.name
 
-			if (!binding) return
-
-			// we are only interested in module bindings
-			if (binding.kind !== "module") return
-
-			// access the module node
-			const module_node = binding.path.parentPath.node
-
-			//
-			// check if this is a call to getAsset()
-			// from @fourtune/realm-js/assets
-			//
-			let is_call_to_getAsset = false
-
-			for (const specifier of module_node.specifiers) {
-				// ignore default imports
-				if (specifier.type === "ImportDefaultSpecifier") {
-					continue
-				}
-
-				if (
-					// local name is the name used in the scope
-					// {getAsset as localName}
-					//              ^^^ local name
-					specifier.local.name !== path.node.callee.name
-				) {
-					continue
-				}
-
-				if (
-					specifier.imported.name === "getAsset" &&
-					module_node.source.value === "@fourtune/realm-js/assets"
-				) {
-					is_call_to_getAsset = true
-					break
-				}
+			if (!pathResolvesToFourtuneGetAssetExport(path, binding_name)) {
+				return
 			}
 
-			if (!is_call_to_getAsset) return
+			const parent_path = path.parentPath
 
-			if (path.node.arguments.length !== 1) {
-				throw new Error(
-					`getAsset() takes exactly one argument.`
-				)
+			if (parent_path.node.type === "ImportSpecifier") {
+				return
 			}
 
-			const url_param = path.node.arguments[0]
+			// getAsset was used, we just don't know how
+			// this is the worst case
+			if (parent_path.node.type !== "CallExpression") {
+				asset_urls = false
 
-			if (url_param.type !== "StringLiteral") {
-				// it doesn't make sense to continue from here
-				// on since we can't know what
-				// this call to getAsset is requesting so we
-				// have to include all assets (this is the worst case)
+				path.stop()
+
+				return
+			}
+
+			const result = processCallExpression(parent_path)
+
+			// we don't know what this call to getAsset is requesting
+			if (result === false) {
 				asset_urls = false
 
 				path.stop()
@@ -86,16 +56,14 @@ export async function jsGetRequestedAssetsFromCode(
 			}
 
 			if (asset_urls === false) {
-				throw new Error(`shouldn't be able to be here`)
+				throw new Error(`Shouldn't be able to be here.`)
 			}
-			// initialize array
-			else if (asset_urls === null) {
+
+			if (asset_urls === null) {
 				asset_urls = []
 			}
 
-			asset_urls.push(
-				jsParseAssetURL(url_param.value)
-			)
+			asset_urls.push(result)
 		}
 	})
 
