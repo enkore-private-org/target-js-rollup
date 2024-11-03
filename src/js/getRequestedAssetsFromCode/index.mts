@@ -70,5 +70,25 @@ export async function jsGetRequestedAssetsFromCode(
 		}
 	})
 
-	return asset_urls
+	// no assets were used
+	if (asset_urls === null) {
+		return {
+			used: false,
+			assets: null
+		}
+	}
+
+	// we know assets were used but don't know
+	// which ones (worst case)
+	if (asset_urls === false) {
+		return {
+			used: true,
+			assets: "unknown"
+		}
+	}
+
+	return {
+		used: true,
+		assets: asset_urls
+	}
 }
