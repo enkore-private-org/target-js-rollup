@@ -6,7 +6,7 @@ import {parse} from "@babel/core"
 // see https://github.com/babel/babel/issues/13855
 const traverse = _traverse.default
 
-import {jsParseAssetURL} from "./parseAssetURL.mjs"
+import {jsParseAssetURL} from "../parseAssetURL.mjs"
 import type {JsParseAssetURLResult} from "@fourtune/types/base-realm-js-and-web/v0/"
 
 export async function jsGetRequestedAssetsFromCode(
