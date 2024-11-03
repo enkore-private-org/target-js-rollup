@@ -1,3 +1,5 @@
+const fourtune_assets_module = "@fourtune/realm-js/assets"
+
 export function pathResolvesToFourtuneGetAssetExport(
 	path : any, binding_name : string
 ) : boolean {
@@ -32,7 +34,7 @@ export function pathResolvesToFourtuneGetAssetExport(
 
 		if (
 			specifier.imported.name === "getAsset" &&
-			module_node.source.value === "@fourtune/realm-js/assets"
+			module_node.source.value === fourtune_assets_module
 		) {
 			return true
 		}
