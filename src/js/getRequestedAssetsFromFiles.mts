@@ -41,7 +41,7 @@ export async function jsGetRequestedAssetsFromFiles(
 
 	const assets : JsParseAssetURLResult[] = []
 
-	for (const [key, value] of asset_map.entries()) {
+	for (const [key] of asset_map.entries()) {
 		assets.push(jsParseAssetURL(key))
 	}
 
