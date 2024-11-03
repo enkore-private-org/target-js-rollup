@@ -31,7 +31,7 @@ export async function jsGetRequestedAssetsFromFiles(
 		// it's not clear which assets are used,
 		// return immediately
 		if (tmp.assets === "unknown") {
-			return {used: true, assets: "unknown"}
+			return {used: true, assets: "unknown", reason: tmp.reason}
 		}
 
 		for (const asset of tmp.assets) {

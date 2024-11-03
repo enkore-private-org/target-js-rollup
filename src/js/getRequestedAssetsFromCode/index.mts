@@ -8,7 +8,8 @@ const traverse = _traverse.default
 
 import type {
 	JsParseAssetURLResult,
-	JsGetRequestedAssetsFromCodeResult
+	JsGetRequestedAssetsFromCodeResult,
+	JsGetRequestedAssetsFromCodeReason
 } from "@fourtune/types/base-realm-js-and-web/v0/"
 
 import {pathResolvesToFourtuneGetAssetExport} from "./pathResolvesToFourtuneGetAssetExport.mjs"
@@ -18,6 +19,7 @@ export async function jsGetRequestedAssetsFromCode(
 	code : string
 ) : Promise<JsGetRequestedAssetsFromCodeResult> {
 	let asset_urls : false|JsParseAssetURLResult[]|null = null
+	let reason : JsGetRequestedAssetsFromCodeReason = "unknown"
 
 	const ast = parse(code, {
 		sourceType: "module"
@@ -34,6 +36,7 @@ export async function jsGetRequestedAssetsFromCode(
 			} else if (tmp === "unknown") {
 				asset_urls = false
 				path.stop()
+				reason = "starImportUsed"
 				return
 			}
 
@@ -48,6 +51,7 @@ export async function jsGetRequestedAssetsFromCode(
 			if (parent_path.node.type !== "CallExpression") {
 				asset_urls = false
 				path.stop()
+				reason = "getAssetIdentifierUsed"
 				return
 			}
 
@@ -57,6 +61,7 @@ export async function jsGetRequestedAssetsFromCode(
 			if (result === false) {
 				asset_urls = false
 				path.stop()
+				reason = "getAssetDynamicURL"
 				return
 			}
 
@@ -85,7 +90,8 @@ export async function jsGetRequestedAssetsFromCode(
 	if (asset_urls === false) {
 		return {
 			used: true,
-			assets: "unknown"
+			assets: "unknown",
+			reason
 		}
 	}
 
