@@ -6,14 +6,17 @@ import {parse} from "@babel/core"
 // see https://github.com/babel/babel/issues/13855
 const traverse = _traverse.default
 
-import type {JsParseAssetURLResult} from "@fourtune/types/base-realm-js-and-web/v0/"
+import type {
+	JsParseAssetURLResult,
+	JsGetRequestedAssetsFromCodeResult
+} from "@fourtune/types/base-realm-js-and-web/v0/"
 
 import {pathResolvesToFourtuneGetAssetExport} from "./pathResolvesToFourtuneGetAssetExport.mjs"
 import {processCallExpression} from "./processCallExpression.mjs"
 
 export async function jsGetRequestedAssetsFromCode(
 	code : string
-) : Promise<false|JsParseAssetURLResult[]> {
+) : Promise<JsGetRequestedAssetsFromCodeResult> {
 	let asset_urls : false|JsParseAssetURLResult[]|null = null
 
 	const ast = parse(code, {
@@ -66,10 +69,6 @@ export async function jsGetRequestedAssetsFromCode(
 			asset_urls.push(result)
 		}
 	})
-
-	// did not find any calls to "getAsset",
-	// second worst case scenario
-	if (asset_urls === null) return false
 
 	return asset_urls
 }
