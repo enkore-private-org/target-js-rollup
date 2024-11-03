@@ -27,6 +27,8 @@ export function pathResolvesToFourtuneGetAssetExport(
 			if (module_node.source.value === fourtune_assets_module) {
 				return "unknown"
 			}
+
+			continue
 		}
 
 		if (
