@@ -21,6 +21,24 @@ function sortAliases(aliases : TsAliases) {
 	})
 }
 
+function resolveImportAlias(
+	sorted_aliases: {alias: string, substitute: string}[],
+	import_specifier: string
+) {
+	let new_import_specifier = import_specifier
+
+	for (const {alias, substitute} of sorted_aliases) {
+		if (import_specifier.startsWith(alias)) {
+			new_import_specifier = import_specifier.slice(alias.length)
+			new_import_specifier = `${substitute}${new_import_specifier}`
+
+			break
+		}
+	}
+
+	return new_import_specifier
+}
+
 function transformerFactory(
 	aliases : TsAliases
 ) {
@@ -36,20 +54,25 @@ function transformerFactory(
 						root_node as ts.SourceFile
 					).toString().slice(1).slice(0, -1)
 
-					let new_import_specifier = import_specifier
-
-					for (const {alias, substitute} of sorted_aliases) {
-						if (import_specifier.startsWith(alias)) {
-							new_import_specifier = import_specifier.slice(alias.length)
-							new_import_specifier = `${substitute}${new_import_specifier}`
-
-							break
-						}
-					}
+					const new_import_specifier = resolveImportAlias(sorted_aliases, import_specifier)
 
 					return context.factory.createImportDeclaration(
 						new_node.modifiers,
 						new_node.importClause,
+						ts.factory.createStringLiteral(new_import_specifier),
+						new_node.attributes
+					)
+				} else if (ts.isExportDeclaration(new_node) && new_node.moduleSpecifier) {
+					const import_specifier = new_node.moduleSpecifier.getText(
+						root_node as ts.SourceFile
+					).toString().slice(1).slice(0, -1)
+
+					const new_import_specifier = resolveImportAlias(sorted_aliases, import_specifier)
+
+					return context.factory.createExportDeclaration(
+						new_node.modifiers,
+						new_node.isTypeOnly,
+						new_node.exportClause,
 						ts.factory.createStringLiteral(new_import_specifier),
 						new_node.attributes
 					)
