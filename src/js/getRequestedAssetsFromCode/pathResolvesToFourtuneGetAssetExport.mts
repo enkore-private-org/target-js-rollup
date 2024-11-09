@@ -1,4 +1,4 @@
-const fourtune_assets_module = "@fourtune/realm-js/assets"
+const fourtune_assets_module = "@fourtune/realm-js/v0/assets"
 
 export function pathResolvesToFourtuneGetAssetExport(
 	path : any, binding_name : string
