@@ -7,7 +7,7 @@ async function readJSONFile(file_path: string) {
 	)
 }
 
-export async function _getBaseTsConfigPath(
+export async function getBaseTsConfigPath(
 	project_root: string
 ) : Promise<string> {
 	const candidates: Map<string, string> = new Map()
