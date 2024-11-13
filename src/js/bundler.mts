@@ -3,13 +3,13 @@ import {rollup} from "rollup"
 import virtual from "@rollup/plugin-virtual"
 import terser from "@rollup/plugin-terser"
 import resolveNode from "@rollup/plugin-node-resolve"
-import path from "node:path"
 
 import createVirtualEntry from "./bundler/createVirtualEntry.mjs"
 import sortAdditionalPlugins from "./bundler/sortAdditionalPlugins.mjs"
 import dts_resolver from "./bundler/dts_resolver.mjs"
 import {tsReadTSConfigFile} from "../ts/readTSConfigFile.mjs"
 import {dts} from "rollup-plugin-dts"
+import {_getBaseTsConfigPath} from "./_getBaseTsConfigPath.mjs"
 
 import type {RollupOptions} from "rollup"
 
@@ -62,9 +62,12 @@ export async function jsBundler(
 		const rollup_plugins = [virtual(virtual_entries)]
 
 		if (input_file_type === "dts") {
-			// todo: don't use hardcoded base path :\
+			const tsconfig_path = await _getBaseTsConfigPath(
+				project_root
+			)
+
 			const compiler_options = await tsReadTSConfigFile(
-				path.join(project_root, "auto", "cfg", "tsconfig.base.json"), project_root
+				tsconfig_path, project_root
 			)
 
 			rollup_plugins.push(dts_resolver(project_root))
