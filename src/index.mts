@@ -16,6 +16,7 @@ import {jsGetRequestedAssetsFromCode} from "./js/getRequestedAssetsFromCode/inde
 import {jsGetRequestedAssetsFromFiles} from "./js/getRequestedAssetsFromFiles.mjs"
 import {jsNormalizePath} from "./js/normalizePath.mjs"
 import {jsParseAssetURL} from "./js/parseAssetURL.mjs"
+import {jsGetBaseTsConfigPath} from "./js/getBaseTsConfigPath.mjs"
 
 const _default : DefaultExportObject = {
 	tsStripTypesFromCode,
@@ -31,7 +32,8 @@ const _default : DefaultExportObject = {
 	jsGetRequestedAssetsFromCode,
 	jsGetRequestedAssetsFromFiles,
 	jsNormalizePath,
-	jsParseAssetURL
+	jsParseAssetURL,
+	jsGetBaseTsConfigPath
 }
 
 export default _default
