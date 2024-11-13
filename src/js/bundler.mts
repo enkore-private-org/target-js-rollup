@@ -9,7 +9,7 @@ import sortAdditionalPlugins from "./bundler/sortAdditionalPlugins.mjs"
 import dts_resolver from "./bundler/dts_resolver.mjs"
 import {tsReadTSConfigFile} from "../ts/readTSConfigFile.mjs"
 import {dts} from "rollup-plugin-dts"
-import {getBaseTsConfigPath} from "./getBaseTsConfigPath.mjs"
+import {jsGetBaseTsConfigPath} from "./getBaseTsConfigPath.mjs"
 
 import type {RollupOptions} from "rollup"
 
@@ -62,7 +62,7 @@ export async function jsBundler(
 		const rollup_plugins = [virtual(virtual_entries)]
 
 		if (input_file_type === "dts") {
-			const tsconfig_path = await getBaseTsConfigPath(
+			const tsconfig_path = await jsGetBaseTsConfigPath(
 				project_root
 			)
 
