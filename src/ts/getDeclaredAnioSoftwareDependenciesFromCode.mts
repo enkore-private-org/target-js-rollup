@@ -1,4 +1,4 @@
-import type {TsGetDeclaredFourtuneDependenciesFromCode} from "@fourtune/types/base-realm-js-and-web/v0/"
+import type {TsGetDeclaredAnioSoftwareDependenciesFromCode} from "@fourtune/types/base-realm-js-and-web/v0/"
 import ts from "typescript"
 
 // this API is used to extract defined anio-software dependencies
@@ -126,9 +126,9 @@ function transformerFactory(dependencies: Map<string, Entry>) {
 	}
 }
 
-export async function tsGetDeclaredFourtuneDependenciesFromCode(
+export async function tsGetDeclaredAnioSoftwareDependenciesFromCode(
 	code: string
-) : ReturnType<TsGetDeclaredFourtuneDependenciesFromCode> {
+) : ReturnType<TsGetDeclaredAnioSoftwareDependenciesFromCode> {
 	const ret : Map<string, Entry> = new Map()
 
 	const source_file = ts.createSourceFile(

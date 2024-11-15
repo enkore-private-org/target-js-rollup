@@ -7,7 +7,7 @@ import {tsBundler} from "./ts/bundler.mjs"
 import {tsGetDeclaredExportNamesFromCode} from "./ts/getDeclaredExportNamesFromCode.mjs"
 import {tsGetDeclaredExportNamesFromCode as jsGetDeclaredExportNamesFromCode} from "./ts/getDeclaredExportNamesFromCode.mjs"
 import {tsResolveImportAliases} from "./ts/resolveImportAliases.mjs"
-import {tsGetDeclaredFourtuneDependenciesFromCode} from "./ts/getDeclaredFourtuneDependenciesFromCode.mjs"
+import {tsGetDeclaredAnioSoftwareDependenciesFromCode} from "./ts/getDeclaredAnioSoftwareDependenciesFromCode.mjs"
 
 import * as ts from "typescript"
 
@@ -25,7 +25,7 @@ const _default : DefaultExportObject = {
 	tsInvokeTypeScript,
 	tsBundler,
 	tsGetDeclaredExportNamesFromCode,
-	tsGetDeclaredFourtuneDependenciesFromCode,
+	tsGetDeclaredAnioSoftwareDependenciesFromCode,
 	ts,
 	jsBundler,
 	jsResolveImportAliases,
