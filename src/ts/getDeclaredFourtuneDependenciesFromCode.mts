@@ -1,6 +1,23 @@
 import type {TsGetDeclaredFourtuneDependenciesFromCode} from "@fourtune/types/base-realm-js-and-web/v0/"
 import ts from "typescript"
 
+// this API is used to extract defined anio-software dependencies
+// in a function file format like this:
+
+// myFunction.mts
+//
+// import {dep1Function} from "@anio-software/dep1"
+// import {dep2Function} from "@anio-software/dep2"
+//
+// type Dependencies = {
+// 	dep1: typeof dep1Function
+// 	dep2: typeof dep2Function
+// }
+
+// this allows us to automatically generate the code
+// that calls the factories (dep1FunctionFactory, dep2FunctionFactory)
+// for both dependencies.
+
 type Entry = {
 	module_name: string,
 	export_name: string
