@@ -9,7 +9,7 @@ import ts from "typescript"
 // import {dep1Function} from "@anio-software/dep1"
 // import {dep2Function} from "@anio-software/dep2"
 //
-// type Dependencies = {
+// export type AnioJsDependencies = {
 // 	dep1: typeof dep1Function
 // 	dep2: typeof dep2Function
 // }
@@ -108,7 +108,7 @@ function transformerFactory(dependencies: Map<string, Entry>) {
 						root_node as ts.SourceFile
 					)
 
-					if (type_name === "Dependencies") {
+					if (type_name === "AnioJsDependencies") {
 						handleTypeAliasDeclaration(
 							root_node,
 							import_identifier_map,
