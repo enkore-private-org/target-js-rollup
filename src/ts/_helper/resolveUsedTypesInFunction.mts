@@ -47,7 +47,11 @@ export async function _resolveUsedTypesInFunction(
 					const used_import = import_map.get(type)!
 
 					if (used_import.kind === "named") {
-						return `import type {${used_import.import_name}} from "${used_import.module_name}"`
+						if (used_import.import_name !== type) {
+							return `import type {${used_import.import_name} as ${type}} from "${used_import.module_name}"`
+						} else {
+							return `import type {${used_import.import_name}} from "${used_import.module_name}"`
+						}
 					} else if (used_import.kind === "default") {
 						return `import type ${type} from "${used_import.module_name}"`
 					} else if (used_import.kind === "star") {
