@@ -7,9 +7,11 @@ import type {Entry as ModuleSource} from "./getImportMap.mjs"
 
 export type Entry = ({
 	source: "import",
-	module: ModuleSource
+	module: ModuleSource,
+	definition: () => string
 }) | ({
-	source: "local"
+	source: "local",
+	definition: () => string
 }) | ({
 	source: "unknown"
 })
@@ -40,11 +42,31 @@ export async function _resolveUsedTypesInFunction(
 		if (import_map.has(type)) {
 			result.set(type, {
 				source: "import",
-				module: import_map.get(type)!
+				module: import_map.get(type)!,
+				definition() {
+					const used_import = import_map.get(type)!
+
+					if (used_import.kind === "named") {
+						return `import type {${used_import.import_name}} from "${used_import.module_name}"`
+					} else if (used_import.kind === "default") {
+						return `import type ${type} from "${used_import.module_name}"`
+					} else if (used_import.kind === "star") {
+						return `import type * as ${type} from "${used_import.module_name}"`
+					}
+
+					return ""
+				}
 			})
 		} else if (local_top_level_types.includes(type)) {
 			result.set(type, {
-				source: "local"
+				source: "local",
+				definition() {
+					const node = local_top_level_type_nodes.filter(node => {
+						return node.name.getText(source) === type
+					})[0]
+
+					return node.getText(source)
+				}
 			})
 		} else {
 			result.set(type, {
