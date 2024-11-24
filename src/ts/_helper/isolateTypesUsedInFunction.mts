@@ -64,7 +64,7 @@ export async function _isolateTypesUsedInFunction(
 	fn: ts.FunctionDeclaration
 ) : Promise<Result> {
 	const generic_types = fn.typeParameters ? fn.typeParameters.map(t => {
-		return t.getText(source)
+		return t.name.getText(source)
 	}) : []
 
 	const type_nodes : ts.TypeReferenceNode[] = (await _isolateNodes(
