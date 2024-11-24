@@ -8,6 +8,57 @@ export type Result = {
 
 const global_types = ["Promise"]
 
+async function _resolveDeep(
+	source: ts.SourceFile,
+	generic_types: string[],
+	parameter_types: string[],
+) : Promise<Result> {
+	const result : string[] = []
+
+	const top_level_source_types : ts.TypeAliasDeclaration[] = (await _isolateNodes(
+		source, (node: ts.Node) => {
+			if (node.parent !== source) return false
+			if (!ts.isTypeAliasDeclaration(node)) return false
+
+			return true
+		}
+	)) as ts.TypeAliasDeclaration[]
+
+	for (const top_level_type_node of top_level_source_types) {
+		const type_reference_nodes : ts.TypeReferenceNode[] = (await _isolateNodes(
+			top_level_type_node, (node: ts.Node) => {
+				if (!ts.isTypeReferenceNode(node)) return false
+
+				return true
+			}
+		)) as ts.TypeReferenceNode[]
+
+		for (const type_node of type_reference_nodes) {
+			const type_name = type_node.typeName.getText(source)
+
+			// ignore generic types from function
+			if (generic_types.includes(type_name)) continue
+			// ignore global types
+			if (global_types.includes(type_name)) continue
+			if (result.includes(type_name)) continue
+
+			result.push(type_name)
+		}
+	}
+
+	// add other types
+	for (const type_name of parameter_types) {
+		if (result.includes(type_name)) continue
+
+		result.push(type_name)
+	}
+
+	return {
+		types: result,
+		generic_types
+	}
+}
+
 export async function _isolateTypesUsedInFunction(
 	source: ts.SourceFile,
 	fn: ts.FunctionDeclaration
@@ -32,8 +83,7 @@ export async function _isolateTypesUsedInFunction(
 		return !global_types.includes(type)
 	})
 
-	return {
-		types,
-		generic_types
-	}
+	return await _resolveDeep(
+		source, generic_types, types
+	)
 }
