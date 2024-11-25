@@ -12,12 +12,6 @@ export function _generateFunctionSignature(
 	const params = implementation.parameters.slice(2)
 	const generic_types = _functionTypeParametersToString(source, implementation)
 
-	const jsdoc = ts.getJSDocCommentsAndTags(implementation)
-
-	if (jsdoc.length) {
-		ret += jsdoc.map(j => j.getText(source)) + "\n"
-	}
-
 	ret += `export type Signature = ${generic_types}(`
 	ret += _functionParametersToString(source, params, true)
 	ret += `) => ${_functionReturnType(source, implementation)}\n`
