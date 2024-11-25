@@ -46,6 +46,7 @@ export function _generateFactoryFunction(
 
 	ret += `${jsdoc_str}\n`
 	ret += `declare function impl(${params}) : ReturnType<Signature>\n`
+	ret += `\n`
 
 	ret += `export function ${factory_name}(user: UserContext = {}) : typeof impl {\n`
 
