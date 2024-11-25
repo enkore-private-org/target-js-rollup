@@ -4,6 +4,7 @@ import {_createASTFromCode} from "../_helper/createASTFromCode.mjs"
 import {_checkImplementation} from "./_checkImplementation.mjs"
 import {_isolateExportedFunction} from "../_helper/isolateExportedFunction.mjs"
 import {_generateFactoryFileCode} from "./_generateFactoryFileCode.mjs"
+import {_generateFunctionFileCode} from "./_generateFunctionFileCode.mjs"
 
 function error(str: string) {
 	return {
@@ -39,6 +40,6 @@ export async function tsGenerateFunctionFactoryCode(
 
 	return {
 		factory: await _generateFactoryFileCode(source, ts_ast, implementation),
-		fn: ""
+		fn: await _generateFunctionFileCode(source, ts_ast, implementation)
 	}
 }
