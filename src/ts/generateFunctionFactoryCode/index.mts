@@ -23,7 +23,9 @@ export async function tsGenerateFunctionFactoryCode(
 	const ts_ast = await _createASTFromCode(code)
 	const implementation = await _isolateExportedFunction(ts_ast, "implementation")
 
-	if (!implementation) return error("unable to find implementation export")
+	if (!implementation) {
+		return error("unable to find implementation export")
+	}
 
 	const error_msg = _checkImplementation(
 		ts_ast,
