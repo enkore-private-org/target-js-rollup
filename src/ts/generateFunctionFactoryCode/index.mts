@@ -1,4 +1,6 @@
 import * as ts from "typescript"
+import path from "node:path"
+import type {TsGenerateFunctionFactoryCodeSource} from "@fourtune/types/base-realm-js-and-web/v0"
 import {_createASTFromCode} from "../_helper/createASTFromCode.mjs"
 import {_getDeclaredAnioSoftwareDependencies, type AnioJsDependencyMap} from "./_getDeclaredAnioSoftwareDependencies.mjs"
 import {_isolateExportedFunction} from "../_helper/isolateExportedFunction.mjs"
@@ -50,24 +52,26 @@ function error(str: string) {
 }
 
 export async function tsGenerateFunctionFactoryCode(
-	source_file: string,
-	factory_name: string,
-	function_name: string,
+	source: TsGenerateFunctionFactoryCodeSource,
 	code: string,
 	expect_async_implementation: boolean|null
 ) : Promise<{
 	factory: string,
 	fn: string
 }> {
+	const source_file : string = source.source
+	const factory_name : string = path.basename(source.output.factory).slice(0, -4)
+	const function_name : string = path.basename(source.output.fn).slice(0, -4)
+
 	let factory = ``
-	const source = await _createASTFromCode(code)
-	const implementation = await _isolateExportedFunction(source, "implementation")
+	const ts_ast = await _createASTFromCode(code)
+	const implementation = await _isolateExportedFunction(ts_ast, "implementation")
 
 	if (!implementation) return error("unable to find implementation export")
 
 	{
 		const tmp = _checkImplementation(
-			source,
+			ts_ast,
 			implementation,
 			expect_async_implementation
 		)
@@ -75,12 +79,12 @@ export async function tsGenerateFunctionFactoryCode(
 		if (tmp.length) return error(tmp)
 	}
 
-	const function_types = await _isolateTypesUsedInFunction(source, implementation)
-	const resolved_types = await _resolveUsedTypesInFunction(source, function_types)
+	const function_types = await _isolateTypesUsedInFunction(ts_ast, implementation)
+	const resolved_types = await _resolveUsedTypesInFunction(ts_ast, function_types)
 
-	const anio_js_dependency_map : AnioJsDependencyMap = await _getDeclaredAnioSoftwareDependencies(source)
+	const anio_js_dependency_map : AnioJsDependencyMap = await _getDeclaredAnioSoftwareDependencies(ts_ast)
 
-	const function_signature = _generateFunctionSignature(source, implementation)
+	const function_signature = _generateFunctionSignature(ts_ast, implementation)
 
 	factory += `import {useContext, type UserContext} from "@fourtune/realm-js/v0/runtime"\n`
 	factory += `import {getProject} from "@fourtune/realm-js/v0/project"\n`
@@ -105,7 +109,7 @@ export async function tsGenerateFunctionFactoryCode(
 	factory += _generateFactoryFunction(
 		factory_name,
 		function_name,
-		source,
+		ts_ast,
 		implementation,
 		anio_js_dependency_map
 	)
