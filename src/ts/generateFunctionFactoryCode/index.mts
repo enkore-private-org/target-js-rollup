@@ -48,12 +48,18 @@ export async function tsGenerateFunctionFactoryCode(
 	function_name: string,
 	code: string,
 	expect_async_implementation: boolean|null
-) : Promise<string> {
-	let ret = ``
+) : Promise<{
+	factory: string,
+	fn: string
+}> {
+	let factory = ``
 	const source = await _createASTFromCode(code)
 	const implementation = await _isolateExportedFunction(source, "implementation")
 
-	if (!implementation) return "/* unable to find implementation export */\n"
+	if (!implementation) return {
+		factory: "/* unable to find implementation export */\n",
+		fn: "/* unable to find implementation export */\n"
+	}
 
 	{
 		const tmp = _checkImplementation(
@@ -62,7 +68,10 @@ export async function tsGenerateFunctionFactoryCode(
 			expect_async_implementation
 		)
 
-		if (tmp.length) return `/* ${tmp} */\n`
+		if (tmp.length) return {
+			factory: `/* ${tmp} */\n`,
+			fn: `/* ${tmp} */\n`
+		}
 	}
 
 	const function_types = await _isolateTypesUsedInFunction(source, implementation)
@@ -72,27 +81,27 @@ export async function tsGenerateFunctionFactoryCode(
 
 	const function_signature = _generateFunctionSignature(source, implementation)
 
-	ret += `import {useContext, type UserContext} from "@fourtune/realm-js/v0/runtime"\n`
-	ret += `import {getProject} from "@fourtune/realm-js/v0/project"\n`
-	ret += `import type {AnioJsDependencies} from "${source_file}"\n`
-	ret += `import {implementation} from "${source_file}"\n`
+	factory += `import {useContext, type UserContext} from "@fourtune/realm-js/v0/runtime"\n`
+	factory += `import {getProject} from "@fourtune/realm-js/v0/project"\n`
+	factory += `import type {AnioJsDependencies} from "${source_file}"\n`
+	factory += `import {implementation} from "${source_file}"\n`
 
 	for (const [k, v] of _sortResolvedEntries(resolved_types)) {
 		if (v.source === "unknown") {
-			ret += `// unresolved type "${k}"\n`
+			factory += `// unresolved type "${k}"\n`
 
 			continue
 		}
 
 		if (k === "AnioJsDependencies") continue
 
-		ret += `${v.definition()}\n`
+		factory += `${v.definition()}\n`
 	}
 
-	ret += `\n`
-	ret += function_signature
-	ret += `\n`
-	ret += _generateFactoryFunction(
+	factory += `\n`
+	factory += function_signature
+	factory += `\n`
+	factory += _generateFactoryFunction(
 		factory_name,
 		function_name,
 		source,
@@ -100,5 +109,8 @@ export async function tsGenerateFunctionFactoryCode(
 		anio_js_dependency_map
 	)
 
-	return ret
+	return {
+		factory,
+		fn: ""
+	}
 }
