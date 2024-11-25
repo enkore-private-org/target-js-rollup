@@ -1,4 +1,3 @@
-import * as ts from "typescript"
 import type {TsGenerateFunctionFactoryCodeSource} from "@fourtune/types/base-realm-js-and-web/v0"
 import {_createASTFromCode} from "../_helper/createASTFromCode.mjs"
 import {_checkImplementation} from "./_checkImplementation.mjs"
