@@ -3,10 +3,11 @@ import * as ts from "typescript"
 export function _printNode(
 	source: ts.SourceFile,
 	node: ts.Node,
-	indent_level: number = 0
+	indent_level: number = 0,
+	remove_comments: boolean = false
 ) : string {
 	const str = ts.createPrinter({
-		removeComments: false
+		removeComments: remove_comments
 	}).printNode(
 		ts.EmitHint.Unspecified,
 		node,
