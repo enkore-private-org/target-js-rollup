@@ -12,7 +12,7 @@ import {_functionModifiersToString} from "../_helper/functionModifiersToString.m
 function _checkImplementation(
 	source: ts.SourceFile,
 	implementation: ts.FunctionDeclaration,
-	expect_async_implementation: boolean
+	expect_async_implementation: boolean|null
 ) : string {
 	if (2 > implementation.parameters.length) return "implementation must have at least 2 parameters."
 
@@ -33,9 +33,9 @@ function _checkImplementation(
 
 	const modifiers = _functionModifiersToString(source, implementation)
 
-	if (expect_async_implementation && !modifiers.includes("async")) {
+	if (expect_async_implementation === true && !modifiers.includes("async")) {
 		return "expected async implementation, but got sync implementation instead"
-	} else if (!expect_async_implementation && modifiers.includes("async")) {
+	} else if (expect_async_implementation === false && modifiers.includes("async")) {
 		return "expected sync implementation, but got async implementation instead"
 	}
 
@@ -47,7 +47,7 @@ export async function tsGenerateFunctionFactoryCode(
 	factory_name: string,
 	function_name: string,
 	code: string,
-	expect_async_implementation: boolean
+	expect_async_implementation: boolean|null
 ) : Promise<string> {
 	let ret = ``
 	const source = await _createASTFromCode(code)
