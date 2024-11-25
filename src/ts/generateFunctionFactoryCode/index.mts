@@ -8,6 +8,30 @@ import {_generateFunctionSignature} from "./_generateFunctionSignature.mjs"
 import {_generateFactoryFunction} from "./_generateFactoryFunction.mjs"
 import {_sortResolvedEntries} from "./_sortResolvedEntries.mjs"
 
+function _checkImplementation(
+	source: ts.SourceFile,
+	implementation: ts.FunctionDeclaration
+) : string {
+	if (2 > implementation.parameters.length) return "implementation must have at least 2 parameters."
+
+	const [context_param, deps_param] = implementation.parameters
+
+	if (!context_param.type || !deps_param.type) {
+		return "context or dependencies parameter does not have a type"
+	}
+
+	const context_param_type = context_param.type.getText(source)
+	const deps_param_type = deps_param.type.getText(source)
+
+	if (context_param_type !== "ContextInstance") {
+		return "context parameter must be of type ContextInstance"
+	} else if (deps_param_type !== "AnioJsDependencies") {
+		return "dependencies parameter must be of type AnioJsDependencies"
+	}
+
+	return ""
+}
+
 export async function tsGenerateFunctionFactoryCode(
 	source_file: string,
 	factory_name: string,
@@ -19,6 +43,12 @@ export async function tsGenerateFunctionFactoryCode(
 	const implementation = await _isolateExportedFunction(source, "implementation")
 
 	if (!implementation) return "/* unable to find implementation export */\n"
+
+	{
+		const tmp = _checkImplementation(source, implementation)
+
+		if (tmp.length) return `/* ${tmp} */\n`
+	}
 
 	const function_types = await _isolateTypesUsedInFunction(source, implementation)
 	const resolved_types = await _resolveUsedTypesInFunction(source, function_types)
