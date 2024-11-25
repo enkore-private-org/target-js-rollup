@@ -7,6 +7,7 @@ import {_convertAndSortDependencies} from "./_convertAndSortDependencies.mjs"
 
 export function _generateFactoryFunction(
 	factory_name: string,
+	function_name: string,
 	source: ts.SourceFile,
 	implementation: ts.FunctionDeclaration,
 	dependency_map: AnioJsDependencyMap
@@ -47,7 +48,7 @@ export function _generateFactoryFunction(
 	ret += `\tconst dependencies : AnioJsDependencies = {${dependencies_init}}\n`
 	ret += `\n`
 
-	ret += `\treturn ${is_async ? "async " : ""}function${generic_types}(${params}) {\n`
+	ret += `\treturn ${is_async ? "async " : ""}function${function_name.length ? ` ${function_name}` : ""}${generic_types}(${params}) {\n`
 	ret += `\t\treturn ${is_async ? "await " : ""}implementation(context, dependencies${rest_params.length ? `, ${rest_params}` : ""})\n`
 	ret += `\t}\n`
 

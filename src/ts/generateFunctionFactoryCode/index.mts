@@ -10,6 +10,8 @@ import {_sortResolvedEntries} from "./_sortResolvedEntries.mjs"
 
 export async function tsGenerateFunctionFactoryCode(
 	source_file: string,
+	factory_name: string,
+	function_name: string,
 	code: string
 ) : Promise<string> {
 	let ret = ``
@@ -25,7 +27,8 @@ export async function tsGenerateFunctionFactoryCode(
 
 	const function_signature = _generateFunctionSignature(source, implementation)
 
-	ret += `import {useContext} from "@fourtune/realm-js/v0"\n`
+	ret += `import {useContext, type UserContext} from "@fourtune/realm-js/v0/runtime"\n`
+	ret += `import {getProject} from "@fourtune/realm-js/v0/project"\n`
 	ret += `import type {AnioJsDependencies} from "${source_file}"\n`
 	ret += `import {implementation} from "${source_file}"\n`
 
@@ -45,7 +48,8 @@ export async function tsGenerateFunctionFactoryCode(
 	ret += function_signature
 	ret += `\n`
 	ret += _generateFactoryFunction(
-		"factory",
+		factory_name,
+		function_name,
 		source,
 		implementation,
 		anio_js_dependency_map
