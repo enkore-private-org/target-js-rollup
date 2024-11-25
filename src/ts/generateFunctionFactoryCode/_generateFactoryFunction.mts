@@ -20,6 +20,9 @@ export function _generateFactoryFunction(
 		return param.getText(source)
 	}).join(", ")
 
+	const jsdoc = ts.getJSDocCommentsAndTags(implementation)
+	const jsdoc_str = jsdoc.length ? jsdoc.map(doc => doc.getText(source)).join("\n") : ""
+
 	const dependencies = _convertAndSortDependencies(dependency_map)
 	let dependencies_import = "", dependencies_init = ""
 
@@ -41,7 +44,10 @@ export function _generateFactoryFunction(
 	ret += dependencies_import
 	ret += (dependencies_import.length ? "\n" : "")
 
-	ret += `export function ${factory_name}(user: UserContext = {}) : Signature {\n`
+	ret += `${jsdoc_str}\n`
+	ret += `declare function impl(${params}) : ReturnType<Signature>\n`
+
+	ret += `export function ${factory_name}(user: UserContext = {}) : typeof impl {\n`
 
 	ret += `\tconst project = getProject()\n`
 	ret += `\tconst context = useContext(project, user)\n`
