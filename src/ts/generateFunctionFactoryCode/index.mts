@@ -42,6 +42,13 @@ function _checkImplementation(
 	return ""
 }
 
+function error(str: string) {
+	return {
+		factory: `/* ${str} */\n`,
+		fn: `/* ${str} */\n`
+	}
+}
+
 export async function tsGenerateFunctionFactoryCode(
 	source_file: string,
 	factory_name: string,
@@ -56,10 +63,7 @@ export async function tsGenerateFunctionFactoryCode(
 	const source = await _createASTFromCode(code)
 	const implementation = await _isolateExportedFunction(source, "implementation")
 
-	if (!implementation) return {
-		factory: "/* unable to find implementation export */\n",
-		fn: "/* unable to find implementation export */\n"
-	}
+	if (!implementation) return error("unable to find implementation export")
 
 	{
 		const tmp = _checkImplementation(
@@ -68,10 +72,7 @@ export async function tsGenerateFunctionFactoryCode(
 			expect_async_implementation
 		)
 
-		if (tmp.length) return {
-			factory: `/* ${tmp} */\n`,
-			fn: `/* ${tmp} */\n`
-		}
+		if (tmp.length) return error(tmp)
 	}
 
 	const function_types = await _isolateTypesUsedInFunction(source, implementation)
