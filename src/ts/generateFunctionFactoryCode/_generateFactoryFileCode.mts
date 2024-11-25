@@ -40,7 +40,13 @@ export async function _generateFactoryFileCode(
 			continue
 		}
 
-		if (k === "AnioJsDependencies") continue
+		if (k === "AnioJsDependencies" && v.source === "local") {
+			continue
+		} else if (k === "ContextInstance" && v.source === "import") {
+			if (v.module.module_name === "@fourtune/realm-js/v0/runtime") {
+				continue
+			}
+		}
 
 		factory += `${v.definition()}\n`
 	}
