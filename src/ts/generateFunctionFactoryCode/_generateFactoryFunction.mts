@@ -40,9 +40,10 @@ export function _generateFactoryFunction(
 	ret += dependencies_import
 	ret += (dependencies_import.length ? "\n" : "")
 
-	ret += `export function ${factory_name}(user: UserOptions = {}) : Signature {\n`
+	ret += `export function ${factory_name}(user: UserContext = {}) : Signature {\n`
 
-	ret += `\tconst context = useContext(user)\n`
+	ret += `\tconst project = getProject()\n`
+	ret += `\tconst context = useContext(project, user)\n`
 	ret += `\tconst dependencies : AnioJsDependencies = {${dependencies_init}}\n`
 	ret += `\n`
 
