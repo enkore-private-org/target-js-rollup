@@ -7,10 +7,12 @@ import {_resolveUsedTypesInFunction} from "../_helper/resolveUsedTypesInFunction
 import {_generateFunctionSignature} from "./_generateFunctionSignature.mjs"
 import {_generateFactoryFunction} from "./_generateFactoryFunction.mjs"
 import {_sortResolvedEntries} from "./_sortResolvedEntries.mjs"
+import {_functionModifiersToString} from "../_helper/functionModifiersToString.mjs"
 
 function _checkImplementation(
 	source: ts.SourceFile,
-	implementation: ts.FunctionDeclaration
+	implementation: ts.FunctionDeclaration,
+	expect_async_implementation: boolean
 ) : string {
 	if (2 > implementation.parameters.length) return "implementation must have at least 2 parameters."
 
@@ -29,6 +31,14 @@ function _checkImplementation(
 		return "dependencies parameter must be of type AnioJsDependencies"
 	}
 
+	const modifiers = _functionModifiersToString(source, implementation)
+
+	if (expect_async_implementation && !modifiers.includes("async")) {
+		return "expected async implementation, but got sync implementation instead"
+	} else if (!expect_async_implementation && modifiers.includes("async")) {
+		return "expected sync implementation, but got async implementation instead"
+	}
+
 	return ""
 }
 
@@ -36,7 +46,8 @@ export async function tsGenerateFunctionFactoryCode(
 	source_file: string,
 	factory_name: string,
 	function_name: string,
-	code: string
+	code: string,
+	expect_async_implementation: boolean
 ) : Promise<string> {
 	let ret = ``
 	const source = await _createASTFromCode(code)
@@ -45,7 +56,11 @@ export async function tsGenerateFunctionFactoryCode(
 	if (!implementation) return "/* unable to find implementation export */\n"
 
 	{
-		const tmp = _checkImplementation(source, implementation)
+		const tmp = _checkImplementation(
+			source,
+			implementation,
+			expect_async_implementation
+		)
 
 		if (tmp.length) return `/* ${tmp} */\n`
 	}
