@@ -26,7 +26,6 @@ export async function _generateFactoryFileCode(
 
 	const function_signature = _generateFunctionSignature(ts_ast, implementation)
 
-
 	let factory = ``
 
 	factory += `import {useContext, type UserContext} from "@fourtune/realm-js/v0/runtime"\n`
