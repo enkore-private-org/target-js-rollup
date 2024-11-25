@@ -15,17 +15,17 @@
     }
   },
   "dependencies": {
-    "@babel/core": "^7.25.8",
+    "@babel/core": "^7.26.0",
     "@babel/parser": "^7.26.1",
-    "@babel/preset-typescript": "^7.25.7",
+    "@babel/preset-typescript": "^7.26.0",
     "@babel/traverse": "^7.25.9",
     "@rollup/plugin-node-resolve": "^15.3.0",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-virtual": "^3.0.2",
     "babel-plugin-module-resolver": "^5.0.2",
-    "rollup": "^4.24.0",
+    "rollup": "^4.27.4",
     "rollup-plugin-dts": "^6.1.1",
-    "typescript": "^5.6.3"
+    "typescript": "^5.7.2"
   },
   "devDependencies": {
     "@fourtune/types": "^0.2000.0",
