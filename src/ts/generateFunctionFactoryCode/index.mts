@@ -25,14 +25,14 @@ export async function tsGenerateFunctionFactoryCode(
 
 	if (!implementation) return error("unable to find implementation export")
 
-	{
-		const tmp = _checkImplementation(
-			ts_ast,
-			implementation,
-			expect_async_implementation
-		)
+	const error_msg = _checkImplementation(
+		ts_ast,
+		implementation,
+		expect_async_implementation
+	)
 
-		if (tmp.length) return error(tmp)
+	if (error_msg.length) {
+		return error(error_msg)
 	}
 
 	return {
