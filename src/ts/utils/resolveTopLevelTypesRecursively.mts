@@ -7,6 +7,10 @@ export function resolveTopLevelTypesRecursively(
 ) : string {
 	let ret = ``
 
+	types.sort((a, b) => {
+		return a.localeCompare(b)
+	})
+
 	for (const type of types) {
 		if (!top_level_types.has(type)) continue
 
