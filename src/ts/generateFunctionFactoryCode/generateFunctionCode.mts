@@ -40,7 +40,11 @@ export function generateFunctionCode(
 	code += `\n`
 	code += `const fn = factory()\n`
 	code += `\n`
-	code += fn.jsdoc + "\n"
+
+	if (fn.jsdoc.length) {
+		code += fn.jsdoc + "\n"
+	}
+
 	code += `export ${is_async ? "async " : ""}function ${function_name}${fn.type_params_definition}(${fn.params.slice(2).map(param => param.definition).join(", ")}) : ${fn.return_type} {\n`
 	code += `\treturn ${is_async ? "await " : ""}fn(${fn.params.slice(2).map(param => param.name).join(", ")})\n`
 	code += `}\n`
