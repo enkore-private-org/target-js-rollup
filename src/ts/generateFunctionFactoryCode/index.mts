@@ -1,9 +1,7 @@
 import type {TsGenerateFunctionFactoryCodeSource} from "@fourtune/types/base-realm-js-and-web/v0"
-import {_createASTFromCode} from "../_helper/createASTFromCode.mjs"
+import {createSourceFile} from "../utils/createSourceFile.mjs"
 import {_checkImplementation} from "./_checkImplementation.mjs"
-import {_isolateExportedFunction} from "../_helper/isolateExportedFunction.mjs"
-import {_generateFactoryFileCode} from "./_generateFactoryFileCode.mjs"
-import {_generateFunctionFileCode} from "./_generateFunctionFileCode.mjs"
+import {isolateExportedFunction} from "../utils/isolateExportedFunction.mjs"
 
 function error(str: string) {
 	return {
@@ -20,15 +18,14 @@ export async function tsGenerateFunctionFactoryCode(
 	factory: string,
 	fn: string
 }> {
-	const ts_ast = await _createASTFromCode(code)
-	const implementation = await _isolateExportedFunction(ts_ast, "implementation")
+	const ts_ast = createSourceFile(code)
+	const implementation = isolateExportedFunction(ts_ast, "implementation")
 
 	if (!implementation) {
 		return error("unable to find implementation export")
 	}
 
 	const error_msg = _checkImplementation(
-		ts_ast,
 		implementation,
 		expect_async_implementation
 	)
@@ -38,7 +35,7 @@ export async function tsGenerateFunctionFactoryCode(
 	}
 
 	return {
-		factory: await _generateFactoryFileCode(source, ts_ast, implementation),
-		fn: await _generateFunctionFileCode(source, ts_ast, implementation)
+		factory: ``,
+		fn: ``
 	}
 }
