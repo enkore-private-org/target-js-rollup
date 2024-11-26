@@ -80,6 +80,22 @@ export function generateFactoryCode(
 	code += `${fn_signature}\n`
 	code += `\n`
 
+	const factory_jsdoc = `
+/**
+ * @brief
+ * Create an instance of the function '${function_name}'.
+ *
+ * @param user
+ * Options object (see @fourtune/realm-js/v0/runtime) or an already
+ * created context with createDefaultContext().
+ * This parameter is optional.
+ *
+ * @return
+ * An instance of the function '${function_name}'.
+ */
+`.slice(1)
+
+	code += factory_jsdoc
 	code += `export function ${factory_name}(user : UserContext = {}) : typeof ${function_name} {\n`
 	code += `\tconst project = getProject()\n`
 	code += `\tconst context = useContext(project, user)\n`
