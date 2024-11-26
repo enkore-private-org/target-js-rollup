@@ -3,6 +3,9 @@ import {createSourceFile} from "../utils/createSourceFile.mjs"
 import {_checkImplementation} from "./_checkImplementation.mjs"
 import {isolateExportedFunction} from "../utils/isolateExportedFunction.mjs"
 
+import {generateFactoryCode} from "./generateFactoryCode.mjs"
+import {generateFunctionCode} from "./generateFunctionCode.mjs"
+
 function error(str: string) {
 	return {
 		factory: `/* ${str} */\n`,
@@ -35,7 +38,7 @@ export async function tsGenerateFunctionFactoryCode(
 	}
 
 	return {
-		factory: ``,
-		fn: ``
+		factory: generateFactoryCode(source, implementation),
+		fn: generateFunctionCode(source, implementation)
 	}
 }
