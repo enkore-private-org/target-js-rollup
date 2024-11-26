@@ -11,6 +11,8 @@ export type FunctionDeclaration = {
 		definition: string
 	}[]
 
+	type_params_definition: string
+
 	params: {
 		name: string,
 		type: string,
@@ -65,6 +67,12 @@ export function convertFunctionDeclaration(
 		return_type = fn.type.getText(source)
 	}
 
+	let type_params_definition : string = ""
+
+	if (type_params.length) {
+		type_params_definition = `<${type_params.map(t => t.definition).join(", ")}>`
+	}
+
 	return {
 		name: function_name,
 
@@ -72,6 +80,8 @@ export function convertFunctionDeclaration(
 		modifiers,
 
 		type_params,
+		type_params_definition,
+
 		params,
 
 		return_type
