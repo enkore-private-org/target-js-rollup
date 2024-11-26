@@ -54,14 +54,28 @@ export function generateFactoryCode(
 	let code = ``
 
 	code += `import {implementation, type AnioJsDependencies} from "${source.source}"\n`
-	code += `import type {UserContext} from "@fourtune/realm-js/v0/runtime"\n`
 	code += `import {getProject} from "@fourtune/realm-js/v0/project"\n`
-	code += `import {useContext} from "@fourtune/realm-js/v0/runtime"\n`
-	code += dependencies_import
+	code += `import {useContext, type UserContext} from "@fourtune/realm-js/v0/runtime"\n`
 
-	code += resolveTopLevelTypesRecursively(
+	if (dependencies_import.length) {
+		code += `\n`
+		code += `// vvv dependencies declared via AnioJsDependencies type\n`
+		code += dependencies_import
+		code += `// ^^^ dependencies declared via AnioJsDependencies type\n`
+	}
+
+	code += `\n`
+
+	const resolved_types = resolveTopLevelTypesRecursively(
 		top_level_types, used_types, true
 	)
+
+	if (resolved_types.length) {
+		code += `// vvv types needed for function signature\n`
+		code += resolved_types
+		code += `// ^^^ types needed for function signature\n`
+		code += `\n`
+	}
 
 	code += `${fn_signature}\n`
 	code += `\n`
@@ -69,8 +83,9 @@ export function generateFactoryCode(
 	code += `export function ${factory_name}(user : UserContext = {}) : typeof ${function_name} {\n`
 	code += `\tconst project = getProject()\n`
 	code += `\tconst context = useContext(project, user)\n`
+	code += `\n`
 	code += `\tconst dependencies : AnioJsDependencies = {${dependencies_init}}\n`
-
+	code += `\n`
 	code += `\treturn ${is_async ? "async " : ""}function ${function_name}${fn.type_params_definition}(${fn.params.slice(2).map(param => param.definition).join(", ")}) : ${fn.return_type} {\n`
 	code += `\t\treturn ${is_async ? "await " : ""}implementation(context, dependencies, ${fn.params.slice(2).map(param => param.name).join(", ")})\n`
 	code += `\t}\n`
