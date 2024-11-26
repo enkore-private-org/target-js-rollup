@@ -75,7 +75,7 @@ export function generateFunctionSignature(
 		signature = signature.slice(0, -2)
 	}
 
-	signature += `\n) => ${fn.return_type}`
+	signature += `\n) ${options.as_type ? "=>" : ":"} ${fn.return_type}`
 
 	return signature
 }
