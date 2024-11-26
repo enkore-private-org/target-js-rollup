@@ -25,9 +25,16 @@ export function generateFunctionCode(
 
 	let code = ``
 
-	code += resolveTopLevelTypesRecursively(
+	const resolved_types = resolveTopLevelTypesRecursively(
 		top_level_types, used_types, true
 	)
+
+	if (resolved_types.length) {
+		code += `// vvv types needed for function signature\n`
+		code += resolved_types
+		code += `// ^^^ types needed for function signature\n`
+		code += `\n`
+	}
 
 	code += `import {${factory_name} as factory} from "${path.join("#~auto", source.output.factory)}"\n`
 	code += `\n`
