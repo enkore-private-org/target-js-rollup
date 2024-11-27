@@ -11,8 +11,8 @@ export function _checkImplementation(
 
 	const [context_param, deps_param] = fn.params
 
-	if (context_param.type !== "ContextInstance") {
-		return "context parameter must be of type ContextInstance"
+	if (context_param.type !== "RuntimeWrappedContextInstance") {
+		return "context parameter must be of type RuntimeWrappedContextInstance"
 	} else if (deps_param.type !== "AnioJsDependencies") {
 		return "dependencies parameter must be of type AnioJsDependencies"
 	}

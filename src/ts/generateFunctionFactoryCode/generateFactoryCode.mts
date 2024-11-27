@@ -21,7 +21,7 @@ export function generateFactoryCode(
 	const used_types = getTypesReferencedInNode(implementation, [
 		...fn.type_params.map(type => type.name),
 		"AnioJsDependencies",
-		"ContextInstance"
+		"RuntimeWrappedContextInstance"
 	])
 	const top_level_types = getTopLevelTypes(implementation.getSourceFile())
 
@@ -54,8 +54,7 @@ export function generateFactoryCode(
 	let code = ``
 
 	code += `import {implementation, type AnioJsDependencies} from "${source.source}"\n`
-	code += `import {getProject} from "@fourtune/realm-js/v0/project"\n`
-	code += `import {useContext, type UserContext} from "@fourtune/realm-js/v0/runtime"\n`
+	code += `import type {RuntimeWrappedContextInstance} from "@fourtune/realm-js/runtime"\n`
 
 	if (dependencies_import.length) {
 		code += `\n`
@@ -96,10 +95,7 @@ export function generateFactoryCode(
 `.slice(1)
 
 	code += factory_jsdoc
-	code += `export function ${factory_name}(user : UserContext = {}) : typeof ${function_name} {\n`
-	code += `\tconst project = getProject()\n`
-	code += `\tconst context = useContext(project, user)\n`
-	code += `\n`
+	code += `export function ${factory_name}(context: RuntimeWrappedContextInstance) : typeof ${function_name} {\n`
 	code += `\tconst dependencies : AnioJsDependencies = {${dependencies_init}}\n`
 	code += `\n`
 	code += `\treturn ${is_async ? "async " : ""}function ${function_name}${fn.type_params_definition}(${fn.params.slice(2).map(param => param.definition).join(", ")}) : ${fn.return_type} {\n`
