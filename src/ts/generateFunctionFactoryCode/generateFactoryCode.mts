@@ -120,7 +120,9 @@ export function generateFactoryCode(
 		fn_params = [...fn_params, ...fn.params.slice(params_offset).map(param => param.name)]
 	}
 
-	code += `\treturn ${is_async ? "async " : ""}function ${function_name}${fn.type_params_definition}(${fn.params.slice(params_offset).map(param => param.definition).join(", ")}) : ${fn.return_type} {\n`
+	const params_definition = fn.params.slice(params_offset).map(param => param.definition).join(", ")
+
+	code += `\treturn ${is_async ? "async " : ""}function ${function_name}${fn.type_params_definition}(${params_definition}) : ${fn.return_type} {\n`
 	code += `\t\treturn ${is_async ? "await " : ""}implementation(${fn_params.join(", ")})\n`
 	code += `\t}\n`
 

@@ -50,7 +50,9 @@ export function generateFunctionCode(
 		code += fn.jsdoc + "\n"
 	}
 
-	code += `export ${is_async ? "async " : ""}function ${function_name}${fn.type_params_definition}(${fn.params.slice(params_offset).map(param => param.definition).join(", ")}) : ${fn.return_type} {\n`
+	const params_definition = fn.params.slice(params_offset).map(param => param.definition).join(", ")
+
+	code += `export ${is_async ? "async " : ""}function ${function_name}${fn.type_params_definition}(${params_definition}) : ${fn.return_type} {\n`
 	code += `\treturn ${is_async ? "await " : ""}fn(${fn.params.slice(params_offset).map(param => param.name).join(", ")})\n`
 	code += `}\n`
 
