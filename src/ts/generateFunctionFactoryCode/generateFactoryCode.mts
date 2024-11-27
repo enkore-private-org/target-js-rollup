@@ -28,8 +28,6 @@ export function generateFactoryCode(
 		"RuntimeWrappedContextInstance"
 	])
 
-	const top_level_types = getTopLevelTypes(implementation.getSourceFile())
-
 	const fn_signature = generateFunctionSignature({
 		...fn,
 		params: fn.params.slice(params_offset)
@@ -71,6 +69,8 @@ export function generateFactoryCode(
 	}
 
 	code += `\n`
+
+	const top_level_types = getTopLevelTypes(implementation.getSourceFile())
 
 	const resolved_types = resolveTopLevelTypesRecursively(
 		top_level_types, used_types, true

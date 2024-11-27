@@ -24,12 +24,11 @@ export function generateFunctionCode(
 		"RuntimeWrappedContextInstance"
 	])
 
-	const top_level_types = getTopLevelTypes(implementation.getSourceFile())
-
-
 	let code = ``
 
 	code += `import {createContext} from "@fourtune/realm-js/v0/runtime"\n`
+
+	const top_level_types = getTopLevelTypes(implementation.getSourceFile())
 
 	const resolved_types = resolveTopLevelTypesRecursively(
 		top_level_types, used_types, true
