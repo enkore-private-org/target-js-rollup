@@ -6,13 +6,6 @@ import {isolateExportedFunction} from "../utils/isolateExportedFunction.mjs"
 import {generateFactoryCode} from "./generateFactoryCode.mjs"
 import {generateFunctionCode} from "./generateFunctionCode.mjs"
 
-function error(str: string) {
-	return {
-		factory: `/* ${str} */\n`,
-		fn: `/* ${str} */\n`
-	}
-}
-
 export async function tsGenerateFunctionFactoryCode(
 	source: TsGenerateFunctionFactoryCodeSource,
 	code: string,
@@ -25,7 +18,7 @@ export async function tsGenerateFunctionFactoryCode(
 	const implementation = isolateExportedFunction(ts_ast, "implementation")
 
 	if (!implementation) {
-		return error("unable to find implementation export")
+		throw new Error(`${source.source}: Unable to find implementation export.`)
 	}
 
 	const error_msg = _checkImplementation(
@@ -34,7 +27,7 @@ export async function tsGenerateFunctionFactoryCode(
 	)
 
 	if (error_msg.length) {
-		return error(error_msg)
+		throw new Error(`${source.source}: ${error_msg}`)
 	}
 
 	return {
