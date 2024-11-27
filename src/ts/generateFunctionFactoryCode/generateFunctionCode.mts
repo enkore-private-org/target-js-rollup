@@ -18,17 +18,17 @@ export function generateFunctionCode(
 	const uses_dependencies = _usesAnioJsDependencies(fn)
 	const is_async = fn.modifiers.includes("async")
 	const params_offset = uses_dependencies ? 2 : 1
-	const used_types = getTypesReferencedInNode(implementation, [
-		...fn.type_params.map(type => type.name),
-		"AnioJsDependencies",
-		"RuntimeWrappedContextInstance"
-	])
 
 	let code = ``
 
 	code += `import {createContext} from "@fourtune/realm-js/v0/runtime"\n`
 
 	const top_level_types = getTopLevelTypes(implementation.getSourceFile())
+	const used_types = getTypesReferencedInNode(implementation, [
+		...fn.type_params.map(type => type.name),
+		"AnioJsDependencies",
+		"RuntimeWrappedContextInstance"
+	])
 
 	const resolved_types = resolveTopLevelTypesRecursively(
 		top_level_types, used_types, true

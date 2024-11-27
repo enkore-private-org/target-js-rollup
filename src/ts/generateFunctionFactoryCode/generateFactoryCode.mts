@@ -22,11 +22,6 @@ export function generateFactoryCode(
 	const uses_dependencies = _usesAnioJsDependencies(fn)
 	const params_offset = uses_dependencies ? 2 : 1
 	const is_async = fn.modifiers.includes("async")
-	const used_types = getTypesReferencedInNode(implementation, [
-		...fn.type_params.map(type => type.name),
-		"AnioJsDependencies",
-		"RuntimeWrappedContextInstance"
-	])
 
 	const fn_signature = generateFunctionSignature({
 		...fn,
@@ -71,6 +66,11 @@ export function generateFactoryCode(
 	code += `\n`
 
 	const top_level_types = getTopLevelTypes(implementation.getSourceFile())
+	const used_types = getTypesReferencedInNode(implementation, [
+		...fn.type_params.map(type => type.name),
+		"AnioJsDependencies",
+		"RuntimeWrappedContextInstance"
+	])
 
 	const resolved_types = resolveTopLevelTypesRecursively(
 		top_level_types, used_types, true
