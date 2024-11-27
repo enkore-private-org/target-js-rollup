@@ -66,7 +66,7 @@ function handleTypeAliasDeclaration(
 
 export function _getDeclaredAnioSoftwareDependencies(
 	source: ts.SourceFile,
-) : AnioJsDependencyMap {
+) : AnioJsDependencyMap|null {
 	const ret : AnioJsDependencyMap = new Map()
 
 	const anio_js_dependencies_type_nodes : ts.TypeAliasDeclaration[] = (isolateNodes(
@@ -80,7 +80,7 @@ export function _getDeclaredAnioSoftwareDependencies(
 	)) as ts.TypeAliasDeclaration[]
 
 	if (anio_js_dependencies_type_nodes.length !== 1) {
-		return ret
+		return null
 	}
 
 	handleTypeAliasDeclaration(
