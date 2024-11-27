@@ -25,7 +25,7 @@ export function generateFunctionCode(
 
 	let code = ``
 
-	code += `import {createDefaultContext} from "@fourtune/realm-js/v0/runtime"\n`
+	code += `import {createContext} from "@fourtune/realm-js/v0/runtime"\n`
 
 	const resolved_types = resolveTopLevelTypesRecursively(
 		top_level_types, used_types, true
@@ -40,7 +40,7 @@ export function generateFunctionCode(
 
 	code += `import {${factory_name} as factory} from "${path.join("#~auto", source.output.factory)}"\n`
 	code += `\n`
-	code += `const fn = factory(createDefaultContext())\n`
+	code += `const fn = factory(createContext())\n`
 	code += `\n`
 
 	if (fn.jsdoc.length) {

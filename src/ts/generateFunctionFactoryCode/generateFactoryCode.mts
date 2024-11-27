@@ -86,7 +86,7 @@ export function generateFactoryCode(
  *
  * @param user
  * Options object (see @fourtune/realm-js/v0/runtime) or an already
- * created context with createDefaultContext().
+ * created context with createContext().
  * This parameter is optional.
  *
  * @return
