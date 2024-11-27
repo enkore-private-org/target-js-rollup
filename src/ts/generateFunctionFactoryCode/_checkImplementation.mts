@@ -7,18 +7,18 @@ export function _checkImplementation(
 ) : string {
 	const fn = convertFunctionDeclaration(implementation)
 
-	if (1 > fn.params.length) return "implementation must have at least 1 parameter."
+	if (1 > fn.params.length) return "Implementation must have at least 1 parameter."
 
 	const [context_param] = fn.params
 
 	if (context_param.type !== "RuntimeWrappedContextInstance") {
-		return "context parameter must be of type RuntimeWrappedContextInstance"
+		return "Context parameter must be of type RuntimeWrappedContextInstance"
 	}
 
 	if (expect_async_implementation === true && !fn.modifiers.includes("async")) {
-		return "expected async implementation, but got sync implementation instead"
+		return "Expected async implementation, but got sync implementation instead."
 	} else if (expect_async_implementation === false && fn.modifiers.includes("async")) {
-		return "expected sync implementation, but got async implementation instead"
+		return "Expected sync implementation, but got async implementation instead."
 	}
 
 	return ""
