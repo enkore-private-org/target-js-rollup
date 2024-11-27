@@ -27,6 +27,7 @@ export function generateFactoryCode(
 		"AnioJsDependencies",
 		"RuntimeWrappedContextInstance"
 	])
+
 	const top_level_types = getTopLevelTypes(implementation.getSourceFile())
 
 	const fn_signature = generateFunctionSignature({
