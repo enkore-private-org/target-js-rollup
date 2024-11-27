@@ -55,6 +55,7 @@ export function generateFactoryCode(
 
 	code += `import {implementation${anio_js_dependencies_type_import}} from "${source.source}"\n`
 	code += `import type {RuntimeWrappedContextInstance} from "@fourtune/realm-js/runtime"\n`
+	code += `import {getProject} from "@fourtune/realm-js/v0/project"\n`
 
 	if (dependencies_code.import_code.length) {
 		code += `\n`
@@ -109,7 +110,7 @@ export function generateFactoryCode(
 		code += `\n`
 	}
 
-	let fn_params : string[] = ["context"]
+	let fn_params : string[] = ["local_context"]
 
 	if (uses_dependencies) {
 		fn_params.push("dependencies")
@@ -123,6 +124,19 @@ export function generateFactoryCode(
 			...fn.params.slice(params_offset).map(param => param.name)
 		]
 	}
+
+	code += `\tconst project = getProject()\n`
+	code += `\tconst local_context : RuntimeWrappedContextInstance = {\n`
+	code += `\t\t...context,\n`
+	code += `\t\t_package: {\n`
+	code += `\t\t\tname: project.package_json.name,\n`
+	code += `\t\t\tversion: project.package_json.version,\n`
+	code += `\t\t\tauthor: project.package_json.author,\n`
+	code += `\t\t\tlicense: project.package_json.license\n`
+	code += `\t\t}\n`
+	code += `\t}\n`
+
+	code += `\n`
 
 	code += `\treturn ${is_async ? "async " : ""}`
 
