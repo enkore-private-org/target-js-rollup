@@ -16,15 +16,16 @@ export function generateFunctionCode(
 
 	const fn = convertFunctionDeclaration(implementation)
 	const uses_dependencies = _usesAnioJsDependencies(fn)
+	const is_async = fn.modifiers.includes("async")
 	const params_offset = uses_dependencies ? 2 : 1
 	const used_types = getTypesReferencedInNode(implementation, [
 		...fn.type_params.map(type => type.name),
 		"AnioJsDependencies",
 		"RuntimeWrappedContextInstance"
 	])
+
 	const top_level_types = getTopLevelTypes(implementation.getSourceFile())
 
-	const is_async = fn.modifiers.includes("async")
 
 	let code = ``
 
@@ -50,17 +51,16 @@ export function generateFunctionCode(
 		code += fn.jsdoc + "\n"
 	}
 
-	const params_definition = fn.params.slice(params_offset).map(param => param.definition).join(", ")
-	const params_name = fn.params.slice(params_offset).map(param => param.name).join(", ")
+	const param_names = fn.params.slice(params_offset).map(param => param.name).join(", ")
 
 	code += `export ${is_async ? "async " : ""}`
 
 	code += `function ${function_name}${fn.type_params_definition}`
 	code += `(`
-	code += params_definition
+	code += fn.params.slice(params_offset).map(param => param.definition).join(", ")
 	code += `) : ${fn.return_type} {\n`
 
-	code += `\treturn ${is_async ? "await " : ""}fn(${params_name})\n`
+	code += `\treturn ${is_async ? "await " : ""}fn(${param_names})\n`
 	code += `}\n`
 
 	return code
