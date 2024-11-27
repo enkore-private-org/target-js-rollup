@@ -12,7 +12,7 @@ export function _checkImplementation(
 	const [context_param] = fn.params
 
 	if (context_param.type !== "RuntimeWrappedContextInstance") {
-		return "Context parameter must be of type RuntimeWrappedContextInstance"
+		return "Context parameter must be of type RuntimeWrappedContextInstance."
 	}
 
 	if (expect_async_implementation === true && !fn.modifiers.includes("async")) {
