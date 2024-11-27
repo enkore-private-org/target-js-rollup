@@ -9,6 +9,7 @@ import {resolveTopLevelTypesRecursively} from "../utils/resolveTopLevelTypesRecu
 import {_getDeclaredAnioSoftwareDependencies} from "./_getDeclaredAnioSoftwareDependencies.mjs"
 import {_convertAndSortDependencies} from "./_convertAndSortDependencies.mjs"
 import {_usesAnioJsDependencies} from "./_usesAnioJsDependencies.mjs"
+import {_generateAnioJsDependenciesImportAndInitCode} from "./_generateAnioJsDependenciesImportAndInitCode.mjs"
 
 export function generateFactoryCode(
 	source: TsGenerateFunctionFactoryCodeSource,
@@ -48,22 +49,7 @@ export function generateFactoryCode(
 		)
 	}
 
-	const dependencies = dependency_map ? _convertAndSortDependencies(dependency_map) : []
-
-	let dependencies_import = "", dependencies_init = ""
-
-	for (const dependency of dependencies) {
-		dependencies_import += `import {${dependency.origin.export_name}Factory} from "${dependency.origin.module_name}"\n`
-
-		dependencies_init += `\t\t${dependency.prop_name}: ${dependency.origin.export_name}Factory(user),\n`
-	}
-
-	// remove trailing new line and comma
-	if (dependencies_init.length) {
-		dependencies_init = dependencies_init.slice(0, -2)
-	}
-
-	if (dependencies_init.length) dependencies_init = `\n${dependencies_init}\n\t`
+	const dependencies_code = _generateAnioJsDependenciesImportAndInitCode(dependency_map)
 
 	let anio_js_dependencies_type_import = ``
 
@@ -76,10 +62,10 @@ export function generateFactoryCode(
 	code += `import {implementation${anio_js_dependencies_type_import}} from "${source.source}"\n`
 	code += `import type {RuntimeWrappedContextInstance} from "@fourtune/realm-js/runtime"\n`
 
-	if (dependencies_import.length) {
+	if (dependencies_code.import_code.length) {
 		code += `\n`
 		code += `// vvv dependencies declared via AnioJsDependencies type\n`
-		code += dependencies_import
+		code += dependencies_code.import_code
 		code += `// ^^^ dependencies declared via AnioJsDependencies type\n`
 	}
 
@@ -118,7 +104,7 @@ export function generateFactoryCode(
 	code += `export function ${factory_name}(context: RuntimeWrappedContextInstance) : typeof ${function_name} {\n`
 
 	if (uses_dependencies) {
-		code += `\tconst dependencies : AnioJsDependencies = {${dependencies_init}}\n`
+		code += `\tconst dependencies : AnioJsDependencies = {${dependencies_code.init_code}}\n`
 		code += `\n`
 	}
 
