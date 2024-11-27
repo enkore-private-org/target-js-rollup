@@ -7,14 +7,12 @@ export function _checkImplementation(
 ) : string {
 	const fn = convertFunctionDeclaration(implementation)
 
-	if (2 > fn.params.length) return "implementation must have at least 2 parameters."
+	if (1 > fn.params.length) return "implementation must have at least 1 parameter."
 
-	const [context_param, deps_param] = fn.params
+	const [context_param] = fn.params
 
 	if (context_param.type !== "RuntimeWrappedContextInstance") {
 		return "context parameter must be of type RuntimeWrappedContextInstance"
-	} else if (deps_param.type !== "AnioJsDependencies") {
-		return "dependencies parameter must be of type AnioJsDependencies"
 	}
 
 	if (expect_async_implementation === true && !fn.modifiers.includes("async")) {
