@@ -41,11 +41,11 @@ export function generateFactoryCode(
 
 	if (uses_dependencies && dependency_map === null) {
 		throw new Error(
-			`AnioJsDependencies parameter detected but no AnioJsDependencies type was exported.`
+			`${source.source}: AnioJsDependencies parameter detected but no AnioJsDependencies type was exported.`
 		)
 	} else if (!uses_dependencies && dependency_map) {
 		throw new Error(
-			`AnioJsDependencies parameter not detected but AnioJsDependencies type was exported.`
+			`${source.source}: AnioJsDependencies parameter not detected but AnioJsDependencies type was exported.`
 		)
 	}
 
