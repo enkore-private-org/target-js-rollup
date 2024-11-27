@@ -15,7 +15,7 @@ export function _generateAnioJsDependenciesImportAndInitCode(
 		for (const dependency of dependencies) {
 			import_code += `import {${dependency.origin.export_name}Factory} from "${dependency.origin.module_name}"\n`
 
-			init_code += `\t\t${dependency.prop_name}: ${dependency.origin.export_name}Factory(user),\n`
+			init_code += `\t\t${dependency.prop_name}: ${dependency.origin.export_name}Factory(context),\n`
 		}
 
 		// remove trailing new line and comma
