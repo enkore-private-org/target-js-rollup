@@ -122,12 +122,17 @@ export function generateFactoryCode(
 
 	const params_definition = fn.params.slice(params_offset).map(param => param.definition).join(", ")
 
-	code += `\treturn ${is_async ? "async " : ""}function `
-	code += `${function_name}${fn.type_params_definition}(${params_definition})`
-	code += `: ${fn.return_type} {\n`
-	code += `\t\treturn ${is_async ? "await " : ""}implementation(${fn_params.join(", ")})\n`
-	code += `\t}\n`
+	code += `\treturn ${is_async ? "async " : ""}`
 
+	code += `function ${function_name}${fn.type_params_definition}`
+	code += `(`
+	code += params_definition
+	code += `) : ${fn.return_type} {\n`
+
+	code += `\t\treturn ${is_async ? "await " : ""}`
+	code += `implementation(${fn_params.join(", ")})\n`
+
+	code += `\t}\n`
 	code += `}\n`
 
 	return code
