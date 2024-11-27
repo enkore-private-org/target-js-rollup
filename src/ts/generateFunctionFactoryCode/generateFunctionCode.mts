@@ -5,6 +5,7 @@ import {convertFunctionDeclaration} from "../utils/convertFunctionDeclaration.mj
 import {getTypesReferencedInNode} from "../utils/getTypesReferencedInNode.mjs"
 import {getTopLevelTypes} from "../utils/getTopLevelTypes.mjs"
 import {resolveTopLevelTypesRecursively} from "../utils/resolveTopLevelTypesRecursively.mjs"
+import {_usesAnioJsDependencies} from "./_usesAnioJsDependencies.mjs"
 
 export function generateFunctionCode(
 	source: TsGenerateFunctionFactoryCodeSource,
@@ -14,6 +15,8 @@ export function generateFunctionCode(
 	const factory_name = path.basename(source.output.factory).slice(0, -4)
 
 	const fn = convertFunctionDeclaration(implementation)
+	const uses_dependencies = _usesAnioJsDependencies(fn)
+	const params_offset = uses_dependencies ? 2 : 1
 	const used_types = getTypesReferencedInNode(implementation, [
 		...fn.type_params.map(type => type.name),
 		"AnioJsDependencies",
@@ -47,8 +50,8 @@ export function generateFunctionCode(
 		code += fn.jsdoc + "\n"
 	}
 
-	code += `export ${is_async ? "async " : ""}function ${function_name}${fn.type_params_definition}(${fn.params.slice(2).map(param => param.definition).join(", ")}) : ${fn.return_type} {\n`
-	code += `\treturn ${is_async ? "await " : ""}fn(${fn.params.slice(2).map(param => param.name).join(", ")})\n`
+	code += `export ${is_async ? "async " : ""}function ${function_name}${fn.type_params_definition}(${fn.params.slice(params_offset).map(param => param.definition).join(", ")}) : ${fn.return_type} {\n`
+	code += `\treturn ${is_async ? "await " : ""}fn(${fn.params.slice(params_offset).map(param => param.name).join(", ")})\n`
 	code += `}\n`
 
 	return code

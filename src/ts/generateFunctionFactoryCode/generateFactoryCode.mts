@@ -8,6 +8,7 @@ import {getTopLevelTypes} from "../utils/getTopLevelTypes.mjs"
 import {resolveTopLevelTypesRecursively} from "../utils/resolveTopLevelTypesRecursively.mjs"
 import {_getDeclaredAnioSoftwareDependencies} from "./_getDeclaredAnioSoftwareDependencies.mjs"
 import {_convertAndSortDependencies} from "./_convertAndSortDependencies.mjs"
+import {_usesAnioJsDependencies} from "./_usesAnioJsDependencies.mjs"
 
 export function generateFactoryCode(
 	source: TsGenerateFunctionFactoryCodeSource,
@@ -17,6 +18,8 @@ export function generateFactoryCode(
 	const factory_name = path.basename(source.output.factory).slice(0, -4)
 
 	const fn = convertFunctionDeclaration(implementation)
+	const uses_dependencies = _usesAnioJsDependencies(fn)
+	const params_offset = uses_dependencies ? 2 : 1
 	const is_async = fn.modifiers.includes("async")
 	const used_types = getTypesReferencedInNode(implementation, [
 		...fn.type_params.map(type => type.name),
@@ -27,14 +30,25 @@ export function generateFactoryCode(
 
 	const fn_signature = generateFunctionSignature({
 		...fn,
-		params: fn.params.slice(2)
+		params: fn.params.slice(params_offset)
 	}, {
 		new_function_name: function_name,
 		use_jsdocs: true
 	})
 
 	const dependency_map = _getDeclaredAnioSoftwareDependencies(implementation.getSourceFile())
-	const dependencies = _convertAndSortDependencies(dependency_map)
+
+	if (uses_dependencies && dependency_map === null) {
+		throw new Error(
+			`AnioJsDependencies parameter detected but no AnioJsDependencies type was exported.`
+		)
+	} else if (!uses_dependencies && dependency_map) {
+		throw new Error(
+			`AnioJsDependencies parameter not detected but AnioJsDependencies type was exported.`
+		)
+	}
+
+	const dependencies = dependency_map ? _convertAndSortDependencies(dependency_map) : []
 
 	let dependencies_import = "", dependencies_init = ""
 
@@ -51,9 +65,15 @@ export function generateFactoryCode(
 
 	if (dependencies_init.length) dependencies_init = `\n${dependencies_init}\n\t`
 
+	let anio_js_dependencies_type_import = ``
+
+	if (uses_dependencies) {
+		anio_js_dependencies_type_import = `, type AnioJsDependencies`
+	}
+
 	let code = ``
 
-	code += `import {implementation, type AnioJsDependencies} from "${source.source}"\n`
+	code += `import {implementation${anio_js_dependencies_type_import}} from "${source.source}"\n`
 	code += `import type {RuntimeWrappedContextInstance} from "@fourtune/realm-js/runtime"\n`
 
 	if (dependencies_import.length) {
@@ -96,10 +116,26 @@ export function generateFactoryCode(
 
 	code += factory_jsdoc
 	code += `export function ${factory_name}(context: RuntimeWrappedContextInstance) : typeof ${function_name} {\n`
-	code += `\tconst dependencies : AnioJsDependencies = {${dependencies_init}}\n`
-	code += `\n`
-	code += `\treturn ${is_async ? "async " : ""}function ${function_name}${fn.type_params_definition}(${fn.params.slice(2).map(param => param.definition).join(", ")}) : ${fn.return_type} {\n`
-	code += `\t\treturn ${is_async ? "await " : ""}implementation(context, dependencies, ${fn.params.slice(2).map(param => param.name).join(", ")})\n`
+
+	if (uses_dependencies) {
+		code += `\tconst dependencies : AnioJsDependencies = {${dependencies_init}}\n`
+		code += `\n`
+	}
+
+	let fn_params : string[] = ["context"]
+
+	if (uses_dependencies) {
+		fn_params.push("dependencies")
+	}
+
+	const rest_params = fn.params.slice(params_offset)
+
+	if (rest_params.length) {
+		fn_params = [...fn_params, ...fn.params.slice(params_offset).map(param => param.name)]
+	}
+
+	code += `\treturn ${is_async ? "async " : ""}function ${function_name}${fn.type_params_definition}(${fn.params.slice(params_offset).map(param => param.definition).join(", ")}) : ${fn.return_type} {\n`
+	code += `\t\treturn ${is_async ? "await " : ""}implementation(${fn_params.join(", ")})\n`
 	code += `\t}\n`
 
 	code += `}\n`
