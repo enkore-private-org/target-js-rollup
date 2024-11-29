@@ -4,14 +4,11 @@ import type {
 	TsGetExportedEntitiesEntity
 } from "@fourtune/types/base-realm-js-and-web/v0"
 
-import {createSourceFile} from "./utils/createSourceFile.mjs"
 import {mapNodes} from "./utils/mapNodes.mjs"
 
 export async function tsGetExportedEntities(
-	code: string
+	source: ts.SourceFile,
 ) : Promise<TsGetExportedEntitiesEntity[]> {
-	const source = createSourceFile(code)
-
 	return mapNodes(source, (node: ts.Node) : TsGetExportedEntitiesEntity|null => {
 		if (node.parent !== source) return null
 
