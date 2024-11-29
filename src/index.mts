@@ -8,6 +8,7 @@ import {tsGetDeclaredExportNamesFromCode} from "./ts/getDeclaredExportNamesFromC
 import {tsGetDeclaredExportNamesFromCode as jsGetDeclaredExportNamesFromCode} from "./ts/getDeclaredExportNamesFromCode.mjs"
 import {tsResolveImportAliases} from "./ts/resolveImportAliases.mjs"
 import {tsGenerateFunctionFactoryCode} from "./ts/generateFunctionFactoryCode/index.mjs"
+import {tsGetExportsFromCode} from "./ts/getExportsFromCode.mjs"
 
 import * as ts from "typescript"
 
@@ -31,6 +32,7 @@ const _default : DefaultExportObject = {
 	jsResolveImportAliases,
 	jsGetDeclaredExportNamesFromCode,
 	tsResolveImportAliases,
+	tsGetExportsFromCode,
 	jsGetRequestedAssetsFromCode,
 	jsGetRequestedAssetsFromFiles,
 	jsNormalizePath,
