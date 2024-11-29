@@ -1,18 +1,18 @@
 import * as ts from "typescript"
 import type {
-	TsGetExportsFromCodeDeclarationElement,
-	TsGetExportsFromCodeEntity
+	TsGetExportedEntitiesDeclarationElement,
+	TsGetExportedEntitiesEntity
 } from "@fourtune/types/base-realm-js-and-web/v0"
 
 import {createSourceFile} from "./utils/createSourceFile.mjs"
 import {mapNodes} from "./utils/mapNodes.mjs"
 
-export async function tsGetExportsFromCode(
+export async function tsGetExportedEntities(
 	code: string
-) : Promise<TsGetExportsFromCodeEntity[]> {
+) : Promise<TsGetExportedEntitiesEntity[]> {
 	const source = createSourceFile(code)
 
-	return mapNodes(source, (node: ts.Node) : TsGetExportsFromCodeEntity|null => {
+	return mapNodes(source, (node: ts.Node) : TsGetExportedEntitiesEntity|null => {
 		if (node.parent !== source) return null
 
 		if (ts.isExportDeclaration(node)) {
@@ -20,7 +20,7 @@ export async function tsGetExportsFromCode(
 			// export * from "foo"
 			if (node.exportClause) {
 				if (ts.isNamedExports(node.exportClause)) {
-					const elements : TsGetExportsFromCodeDeclarationElement[] = []
+					const elements : TsGetExportedEntitiesDeclarationElement[] = []
 
 					for (const element of node.exportClause.elements) {
 						elements.push({
@@ -30,7 +30,7 @@ export async function tsGetExportsFromCode(
 						})
 					}
 
-					let ret : TsGetExportsFromCodeEntity = {
+					let ret : TsGetExportedEntitiesEntity = {
 						node,
 						kind: "named",
 						elements
@@ -91,7 +91,7 @@ export async function tsGetExportsFromCode(
 
 			if (!modifiers.includes(ts.SyntaxKind.ExportKeyword)) return null
 
-			let ret : TsGetExportsFromCodeEntity = {
+			let ret : TsGetExportedEntitiesEntity = {
 				node,
 				kind: "variables",
 				elements: []
