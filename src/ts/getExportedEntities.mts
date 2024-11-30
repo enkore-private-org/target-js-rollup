@@ -4,7 +4,7 @@ import type {
 	TsGetExportedEntitiesEntity
 } from "@fourtune/types/base-realm-js-and-web/v0"
 
-import {mapNodes} from "./utils/mapNodes.mjs"
+import {mapNodes} from "@anio-software/ts-utils"
 
 export async function tsGetExportedEntities(
 	source: ts.SourceFile,
