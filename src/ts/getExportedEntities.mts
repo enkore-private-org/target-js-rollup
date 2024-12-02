@@ -4,11 +4,14 @@ import type {
 	TsGetExportedEntitiesEntity
 } from "@fourtune/types/base-realm-js-and-web/v0"
 
-import {mapNodes} from "@anio-software/ts-utils"
+import {createSourceFile} from "./_utils_to_be_removed/createSourceFile.mjs"
+import {mapNodes} from "./_utils_to_be_removed/mapNodes.mjs"
 
 export async function tsGetExportedEntities(
-	source: ts.SourceFile,
+	code: string
 ) : Promise<TsGetExportedEntitiesEntity[]> {
+	const source = createSourceFile(code)
+
 	return mapNodes(source, (node: ts.Node) : TsGetExportedEntitiesEntity|null => {
 		if (node.parent !== source) return null
 
