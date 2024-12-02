@@ -7,6 +7,8 @@ import {
 	convertFunctionDeclaration
 } from "@anio-software/ts-utils"
 
+import {getAnioJsDependencies} from "./getAnioJsDependencies.mjs"
+
 export async function tsGenerateFunctionFactoryCodeForRealmJSAndWebV0(
 	project_root: string,
 	source: TsGenerateFunctionFactoryCodeForRealmJSAndWebV0Source,
@@ -47,6 +49,18 @@ export async function tsGenerateFunctionFactoryCodeForRealmJSAndWebV0(
 
 	if (fn.params.length >= 2 && fn.params[1].type !== "AnioJsDependencies") {
 		throw new Error(`Second parameter of implementation must be of type 'AnioJsDependencies'.`)
+	}
+
+	let anio_js_dependencies : false|any[] = false
+
+	if (fn.params.length >= 2) {
+		anio_js_dependencies = getAnioJsDependencies(
+			project_root, inst, aliases
+		)
+
+		if (anio_js_dependencies === false) {
+			throw new Error(`Unable to process AnioJsDependencies.`)
+		}
 	}
 
 	return {
