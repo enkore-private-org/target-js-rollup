@@ -105,9 +105,13 @@ export async function getAnioJsDependencies(
 			resolved_path = path.join(
 				project_root, "src", unresolved_path.slice(6)
 			)
+		} else if (unresolved_path.startsWith("#~auto/")) {
+			resolved_path = path.join(
+				project_root, "auto", "user", "src", unresolved_path.slice(6)
+			)
 		} else {
 			throw new Error(
-				`Import path for AnioJsDependencies must start with "#~src/".`
+				`Import path for AnioJsDependencies must start with "#~src/" or "#~auto/".`
 			)
 		}
 
