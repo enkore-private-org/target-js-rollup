@@ -21,11 +21,6 @@ import {jsNormalizePath} from "./js/normalizePath.mjs"
 import {jsParseAssetURL} from "./js/parseAssetURL.mjs"
 import {jsGetBaseTsConfigPath} from "./js/getBaseTsConfigPath.mjs"
 
-import {utilExpandAsyncSyncVariantFilePath} from "./util/expandAsyncSyncVariantFilePath.mjs"
-import {utilExpandAsyncSyncVariantName} from "./util/expandAsyncSyncVariantName.mjs"
-import {utilIsExpandableFilePath} from "./util/isExpandableFilePath.mjs"
-import {utilIsExpandableName} from "./util/isExpandableName.mjs"
-
 const _default : DefaultExportObject = {
 	tsStripTypesFromCode,
 	tsReadTSConfigFile,
@@ -44,11 +39,7 @@ const _default : DefaultExportObject = {
 	jsGetRequestedAssetsFromFiles,
 	jsNormalizePath,
 	jsParseAssetURL,
-	jsGetBaseTsConfigPath,
-	utilExpandAsyncSyncVariantFilePath,
-	utilExpandAsyncSyncVariantName,
-	utilIsExpandableFilePath,
-	utilIsExpandableName
+	jsGetBaseTsConfigPath
 }
 
 export default _default
