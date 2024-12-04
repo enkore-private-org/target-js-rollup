@@ -7,8 +7,7 @@ import {
 	getExportByName,
 	getImportByIdentifier,
 	getImports,
-	parseCode,
-	convertFunctionDeclaration
+	parseCode
 } from "@aniojs/node-ts-utils"
 
 export type AnioJsDependency = {
@@ -19,8 +18,7 @@ export type AnioJsDependency = {
 
 function processTypeAliasDeclaration(
 	inst: Instance,
-	node: ts.TypeAliasDeclaration,
-	is_async_fn: boolean
+	node: ts.TypeAliasDeclaration
 ) : AnioJsDependency[]|false {
 	const ret : AnioJsDependency[] = []
 
@@ -62,11 +60,9 @@ function processTypeAliasDeclaration(
 	function getImportDeclarationByIdentifier(identifier: string) {
 		for (const imp of imports) {
 			if (imp.identifier === identifier && imp.kind === "named") {
-				const s = is_async_fn ? "" : "Sync"
-
 				return {
-					definition: `import {${imp.import_name}${s}Factory} from "${imp.module_name}"`,
-					factory: `${imp.import_name}${s}Factory`
+					definition: `import {${imp.import_name}Factory} from "${imp.module_name}"`,
+					factory: `${imp.import_name}Factory`
 				}
 			}
 		}
@@ -77,12 +73,8 @@ function processTypeAliasDeclaration(
 
 export async function getAnioJsDependencies(
 	project_root: string,
-	inst: Instance,
-	implementation: ts.FunctionDeclaration
+	inst: Instance
 ) : Promise<AnioJsDependency[]|false> {
-	const fn = convertFunctionDeclaration(implementation)
-	const is_async_fn = fn.modifiers.includes("async")
-
 	const dep_export = getExportByName(inst, "AnioJsDependencies", "type-only")
 
 	if (!dep_export) {
@@ -147,7 +139,6 @@ export async function getAnioJsDependencies(
 
 	return processTypeAliasDeclaration(
 		type_alias_node_instance,
-		type_alias_node,
-		is_async_fn
+		type_alias_node
 	)
 }

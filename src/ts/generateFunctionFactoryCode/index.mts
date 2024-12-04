@@ -56,7 +56,7 @@ export async function tsGenerateFunctionFactoryCodeForRealmJSAndWebV0(
 
 	if (fn.params.length >= 2) {
 		anio_js_dependencies = await getAnioJsDependencies(
-			project_root, inst, implementation.node
+			project_root, inst
 		)
 
 		if (anio_js_dependencies === false) {
