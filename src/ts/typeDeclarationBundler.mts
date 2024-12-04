@@ -8,7 +8,8 @@ export async function tsTypeDeclarationBundler(
 	project_root: string,
 	entry_code: string,
 	options: TsTypeDeclarationBundlerOptions = {
-		externals: []
+		externals: [],
+		on_rollup_log_fn: null
 	}
 ) : Promise<string> {
 	return await jsBundler(
@@ -19,7 +20,8 @@ export async function tsTypeDeclarationBundler(
 			externals: options.externals,
 			treeshake: false,
 			minify: false,
-			additional_plugins: []
+			additional_plugins: [],
+			on_rollup_log_fn: options.on_rollup_log_fn
 		}
 	)
 }
