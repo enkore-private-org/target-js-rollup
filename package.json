@@ -15,7 +15,6 @@
     }
   },
   "dependencies": {
-    "@anio-software/ts-utils": "^0.0.5",
     "@babel/core": "^7.26.0",
     "@babel/parser": "^7.26.1",
     "@babel/preset-typescript": "^7.26.0",
