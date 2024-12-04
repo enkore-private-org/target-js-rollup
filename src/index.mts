@@ -9,6 +9,7 @@ import {tsResolveImportAliases} from "./ts/resolveImportAliases.mjs"
 import {tsGenerateFunctionFactoryCode} from "./ts/generateFunctionFactoryCode/index.mjs"
 import {tsGetExportedEntities} from "./ts/getExportedEntities.mjs"
 import {tsTypeDeclarationBundler} from "./ts/typeDeclarationBundler.mjs"
+import {tsAssetFileBundler} from "./ts/assetFileBundler.mjs"
 
 import * as ts from "typescript"
 
@@ -27,6 +28,7 @@ const _default : DefaultExportObject = {
 	tsGetDeclaredExportNamesFromCode,
 	tsGenerateFunctionFactoryCode,
 	tsTypeDeclarationBundler,
+	tsAssetFileBundler,
 	ts,
 	jsBundler,
 	jsResolveImportAliases,
