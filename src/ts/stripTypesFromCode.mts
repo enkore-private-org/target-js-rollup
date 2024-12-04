@@ -3,10 +3,7 @@ import babel from "@babel/core"
 // @ts-ignore:next-line
 import presetTypeScript from "@babel/preset-typescript"
 
-export type TsStripTypesFromCodeOptions = {
-	filename? : string
-	replace_import_extensions? : boolean
-}
+import type {TsStripTypesFromCodeOptions} from "@fourtune/types/base-realm-js-and-web/v0"
 
 export async function tsStripTypesFromCode(
 	code : string, {

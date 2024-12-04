@@ -13,20 +13,7 @@ import {jsGetBaseTsConfigPath} from "./getBaseTsConfigPath.mjs"
 
 import type {RollupOptions} from "rollup"
 
-export type JsBundlerInputFileType = "mjs" | "dts"
-
-export type JsBundlerPlugin = {
-	when : "pre" | "post"
-	plugin : any
-}
-
-export type JsBundlerOptions = {
-	input_file_type? : JsBundlerInputFileType
-	minify? : boolean
-	treeshake? : boolean
-	additional_plugins? : JsBundlerPlugin[]
-	on_rollup_log_fn? : ((...args: any[]) => any) | null
-}
+import type {JsBundlerOptions} from "@fourtune/types/base-realm-js-and-web/v0"
 
 export async function jsBundler(
 	project_root : string, entry_code : string, {

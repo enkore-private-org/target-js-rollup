@@ -1,4 +1,4 @@
-import type {JsBundlerPlugin} from "../bundler.mjs"
+import type {JsBundlerPlugin} from "@fourtune/types/base-realm-js-and-web/v0"
 
 export default function(plugins : JsBundlerPlugin[]) {
 	const ret = {

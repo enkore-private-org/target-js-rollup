@@ -1,4 +1,4 @@
-import type {JsBundlerOptions} from "../bundler.mjs"
+import type {JsBundlerOptions} from "@fourtune/types/base-realm-js-and-web/v0"
 
 export default function(options : JsBundlerOptions, entry_code : string) {
 	const {input_file_type} = options
