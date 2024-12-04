@@ -29,7 +29,7 @@
     "typescript": "^5.7.2"
   },
   "devDependencies": {
-    "@fourtune/types": "^0.52000.0",
+    "@fourtune/types": "^0.55000.1",
     "@types/node": "^22.7.7"
   },
   "files": [
