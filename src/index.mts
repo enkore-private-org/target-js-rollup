@@ -8,6 +8,7 @@ import {tsGetDeclaredExportNamesFromCode as jsGetDeclaredExportNamesFromCode} fr
 import {tsResolveImportAliases} from "./ts/resolveImportAliases.mjs"
 import {tsGenerateFunctionFactoryCode} from "./ts/generateFunctionFactoryCode/index.mjs"
 import {tsGetExportedEntities} from "./ts/getExportedEntities.mjs"
+import {tsTypeDeclarationBundler} from "./ts/typeDeclarationBundler.mjs"
 
 import * as ts from "typescript"
 
@@ -25,6 +26,7 @@ const _default : DefaultExportObject = {
 	tsInvokeTypeScript,
 	tsGetDeclaredExportNamesFromCode,
 	tsGenerateFunctionFactoryCode,
+	tsTypeDeclarationBundler,
 	ts,
 	jsBundler,
 	jsResolveImportAliases,
