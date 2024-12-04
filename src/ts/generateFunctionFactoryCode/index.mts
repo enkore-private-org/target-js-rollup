@@ -7,7 +7,8 @@ import {
 	convertFunctionDeclaration
 } from "@aniojs/node-ts-utils"
 
-import {getAnioJsDependencies} from "./getAnioJsDependencies.mjs"
+import {getAnioJsDependencies, type AnioJsDependency} from "./getAnioJsDependencies.mjs"
+import {generateFactoryCode} from "./generateFactoryCode.mjs"
 
 export async function tsGenerateFunctionFactoryCodeForRealmJSAndWebV0(
 	project_root: string,
@@ -50,10 +51,10 @@ export async function tsGenerateFunctionFactoryCodeForRealmJSAndWebV0(
 		throw new Error(`Second parameter of implementation must be of type 'AnioJsDependencies'.`)
 	}
 
-	let anio_js_dependencies : false|any[] = false
+	let anio_js_dependencies : false|AnioJsDependency[] = false
 
 	if (fn.params.length >= 2) {
-		anio_js_dependencies = getAnioJsDependencies(
+		anio_js_dependencies = await getAnioJsDependencies(
 			project_root, inst
 		)
 
@@ -63,7 +64,12 @@ export async function tsGenerateFunctionFactoryCodeForRealmJSAndWebV0(
 	}
 
 	return {
-		factory: ``,
+		factory: generateFactoryCode(
+			inst,
+			implementation.node,
+			anio_js_dependencies,
+			source
+		),
 		fn: ``
 	}
 }
