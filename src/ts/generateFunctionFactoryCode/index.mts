@@ -12,7 +12,7 @@ import {generateFactoryCode} from "./generateFactoryCode.mjs"
 
 export async function tsGenerateFunctionFactoryCodeForRealmJSAndWebV0(
 	project_root: string,
-	source: Source|([Source, Source]),
+	source: Source,
 	code: string,
 	expect_async_implementation: boolean|null
 ) : Promise<{

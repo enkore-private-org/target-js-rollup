@@ -12,7 +12,7 @@ export function generateFactoryCode(
 	inst: Instance,
 	fn: ts.FunctionDeclaration,
 	dependencies: AnioJsDependency[]|false,
-	source: Source|([Source, Source])
+	source: Source
 ) : string {
 	let code = ``
 
