@@ -6,7 +6,7 @@ import {tsInvokeTypeScript} from "./ts/invokeTypeScript.mjs"
 import {tsGetDeclaredExportNamesFromCode} from "./ts/getDeclaredExportNamesFromCode.mjs"
 import {tsGetDeclaredExportNamesFromCode as jsGetDeclaredExportNamesFromCode} from "./ts/getDeclaredExportNamesFromCode.mjs"
 import {tsResolveImportAliases} from "./ts/resolveImportAliases.mjs"
-import {tsGenerateFunctionFactoryCode} from "./ts/generateFunctionFactoryCode/index.mjs"
+import {tsGenerateFunctionFactoryCodeForRealmJSAndWebV0} from "./ts/generateFunctionFactoryCode/index.mjs"
 import {tsGetExportedEntities} from "./ts/getExportedEntities.mjs"
 import {tsTypeDeclarationBundler} from "./ts/typeDeclarationBundler.mjs"
 import {tsAssetFileBundler} from "./ts/assetFileBundler.mjs"
@@ -26,7 +26,7 @@ const _default : DefaultExportObject = {
 	tsReadTSConfigFile,
 	tsInvokeTypeScript,
 	tsGetDeclaredExportNamesFromCode,
-	tsGenerateFunctionFactoryCode,
+	tsGenerateFunctionFactoryCodeForRealmJSAndWebV0,
 	tsTypeDeclarationBundler,
 	tsAssetFileBundler,
 	ts,
