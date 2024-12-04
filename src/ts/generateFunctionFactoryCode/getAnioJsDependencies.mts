@@ -106,8 +106,8 @@ export async function getAnioJsDependencies(
 				project_root, "src", unresolved_path.slice(6)
 			)
 		} else {
-			resolved_path = path.join(
-				project_root, unresolved_path
+			throw new Error(
+				`Import path for AnioJsDependencies must start with "#~src/".`
 			)
 		}
 
