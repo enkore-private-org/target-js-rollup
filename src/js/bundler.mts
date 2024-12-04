@@ -21,7 +21,8 @@ export async function jsBundler(
 		minify = false,
 		treeshake = true,
 		additional_plugins = [],
-		on_rollup_log_fn = null
+		on_rollup_log_fn = null,
+		externals = []
 	} : JsBundlerOptions = {}
 ) {
 	const options = {input_file_type}
@@ -47,6 +48,18 @@ export async function jsBundler(
 
 		// @ts-ignore:next-line
 		const rollup_plugins = [virtual(virtual_entries)]
+
+		if (externals.length) {
+			rollup_plugins.push({
+				resolveId(id: string) {
+					if (externals.includes(id)) {
+						return {id, external: true}
+					}
+
+					return null
+				}
+			})
+		}
 
 		if (input_file_type === "dts") {
 			const tsconfig_path = await jsGetBaseTsConfigPath(
