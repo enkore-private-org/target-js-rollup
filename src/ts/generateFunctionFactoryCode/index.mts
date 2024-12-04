@@ -71,6 +71,7 @@ export async function tsGenerateFunctionFactoryCodeForRealmJSAndWebV0(
 			anio_js_dependencies,
 			source
 		),
+
 		fn: generateFunctionCode(
 			inst,
 			implementation.node,
