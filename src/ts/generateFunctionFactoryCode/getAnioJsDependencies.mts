@@ -61,8 +61,8 @@ function processTypeAliasDeclaration(
 		for (const imp of imports) {
 			if (imp.identifier === identifier && imp.kind === "named") {
 				return {
-					definition: imp.definition,
-					factory: `${imp.identifier}Factory`
+					definition: `import {${imp.import_name}Factory} from "${imp.module_name}"`,
+					factory: `${imp.import_name}Factory`
 				}
 			}
 		}

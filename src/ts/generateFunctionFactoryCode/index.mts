@@ -9,6 +9,7 @@ import {
 
 import {getAnioJsDependencies, type AnioJsDependency} from "./getAnioJsDependencies.mjs"
 import {generateFactoryCode} from "./generateFactoryCode.mjs"
+import {generateFunctionCode} from "./generateFunctionCode.mjs"
 
 export async function tsGenerateFunctionFactoryCodeForRealmJSAndWebV0(
 	project_root: string,
@@ -70,6 +71,11 @@ export async function tsGenerateFunctionFactoryCodeForRealmJSAndWebV0(
 			anio_js_dependencies,
 			source
 		),
-		fn: ``
+		fn: generateFunctionCode(
+			inst,
+			implementation.node,
+			anio_js_dependencies,
+			source
+		)
 	}
 }
