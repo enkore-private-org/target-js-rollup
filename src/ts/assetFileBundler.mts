@@ -10,8 +10,7 @@ export async function tsAssetFileBundler(
 	project_root : string, entry_code : string, {
 		minify = false,
 		additional_plugins = [],
-		on_rollup_log_fn = null,
-		externals = []
+		on_rollup_log_fn = null
 	} : TsAssetFileBundlerOptions = {}
 ) : Promise<string> {
 	const plugin : JsBundlerPlugin = {
@@ -33,7 +32,7 @@ export async function tsAssetFileBundler(
 			input_file_type: "mjs",
 			minify,
 			treeshake: false,
-			externals,
+			externals: [],
 			additional_plugins: [
 				plugin,
 				...additional_plugins
