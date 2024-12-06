@@ -89,7 +89,7 @@ export function generateFactoryCode(
 	code += generateFunctionSignature(
 		{
 			...fn,
-			params: fn.params.slice(2)
+			params: fn.params.slice(params_offset)
 		}, {
 			new_function_name: function_name,
 			use_jsdocs: true
