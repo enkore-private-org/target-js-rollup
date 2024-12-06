@@ -46,7 +46,7 @@ export function generateFunctionCode(
 	}
 
 	code += `\n`
-	code += `import {${factory_name} as factory} from "${path.join("#~auto", source.output.factory)}"\n`
+	code += `import {${factory_name} as factory} from "${path.join("#~synthetic", "user", source.output.factory)}"\n`
 	code += `\n`
 
 	code += `const fn = factory(createContext())\n`
