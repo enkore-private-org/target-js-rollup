@@ -48,13 +48,14 @@ export async function tsGenerateFunctionFactoryCodeForRealmJSAndWebV0(
 		throw new Error(`First parameter of implementation must be of type 'RuntimeWrappedContextInstance'.`)
 	}
 
-	if (fn.params.length >= 2 && fn.params[1].type !== "AnioJsDependencies") {
-		throw new Error(`Second parameter of implementation must be of type 'AnioJsDependencies'.`)
-	}
+	const uses_dependenices = (
+		fn.params.length >= 2 &&
+		fn.params[1].type === "AnioJsDependencies"
+	)
 
 	let anio_js_dependencies : false|AnioJsDependency[] = false
 
-	if (fn.params.length >= 2) {
+	if (uses_dependenices) {
 		anio_js_dependencies = await getAnioJsDependencies(
 			project_root, inst
 		)
