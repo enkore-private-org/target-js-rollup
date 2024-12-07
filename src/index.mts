@@ -14,7 +14,6 @@ import {tsAssetFileBundler} from "./ts/assetFileBundler.mjs"
 import * as ts from "typescript"
 
 import {jsBundler} from "./js/bundler.mjs"
-import {jsResolveImportAliases} from "./js/resolveImportAliases.mjs"
 import {jsGetRequestedAssetsFromCode} from "./js/getRequestedAssetsFromCode/index.mjs"
 import {jsGetRequestedAssetsFromFiles} from "./js/getRequestedAssetsFromFiles.mjs"
 import {jsNormalizePath} from "./js/normalizePath.mjs"
@@ -31,7 +30,6 @@ const _default : DefaultExportObject = {
 	tsAssetFileBundler,
 	ts,
 	jsBundler,
-	jsResolveImportAliases,
 	jsGetDeclaredExportNamesFromCode,
 	tsResolveImportAliases,
 	tsGetExportedEntities,
