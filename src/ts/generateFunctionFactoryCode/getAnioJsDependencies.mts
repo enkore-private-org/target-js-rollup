@@ -109,7 +109,6 @@ export async function getAnioJsDependencies(
 		// NB: async.sync auto files are generated before user files
 		//     so this OK (will not lead ot out of sync behaviour)
 		else if (unresolved_path.startsWith("#~synthetic/async.sync/")) {
-			console.log("p",unresolved_path.slice(23))
 			resolved_path = path.join(
 				project_root, "auto", "synthetic", "async.sync", "src", unresolved_path.slice(23)
 			)
