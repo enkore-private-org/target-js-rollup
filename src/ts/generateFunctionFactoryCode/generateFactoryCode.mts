@@ -15,11 +15,11 @@ function generateDependenciesInitCode(
 	let code = ``
 
 	if (dependencies.length) {
-		code += `\n\t`
+		code += `\n`
 	}
 
 	for (const dependency of dependencies) {
-		code += `\t${dependency.name}: ${dependency.factory}(context),\n`
+		code += `\t\t${dependency.name}: ${dependency.factory}(context),\n`
 	}
 
 	if (code.length) {
