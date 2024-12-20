@@ -139,7 +139,7 @@ export function generateFactoryCode(
 	let type_params_definition = ""
 
 	if (fn.type_params.length) {
-		type_params_definition = `<${fn.type_params.map(t => t.name).join(", ")}>`
+		type_params_definition = `<${fn.type_params.map(t => t.definition).join(", ")}>`
 	}
 
 	code += `\tconst project = getProject()\n`
