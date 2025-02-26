@@ -3,6 +3,7 @@ import {rollup} from "rollup"
 import virtual from "@rollup/plugin-virtual"
 import terser from "@rollup/plugin-terser"
 import resolveNode from "@rollup/plugin-node-resolve"
+import commonJs from "@rollup/plugin-commonjs"
 
 import createVirtualEntry from "./bundler/createVirtualEntry.mjs"
 import sortAdditionalPlugins from "./bundler/sortAdditionalPlugins.mjs"
@@ -89,6 +90,9 @@ export async function jsBundler(
 		} else if (input_file_type === "mjs") {
 			// @ts-ignore:next-line
 			rollup_plugins.push(resolveNode())
+
+			// @ts-ignore:next-line
+			rollup_plugins.push(commonJs())
 		}
 
 		if (input_file_type === "mjs" && minify) {
