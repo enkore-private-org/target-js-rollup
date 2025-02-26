@@ -20,6 +20,7 @@
     "@babel/parser": "^7.26.1",
     "@babel/preset-typescript": "^7.26.0",
     "@babel/traverse": "^7.25.9",
+    "@rollup/plugin-commonjs": "^28.0.2",
     "@rollup/plugin-node-resolve": "^15.3.0",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-virtual": "^3.0.2",
