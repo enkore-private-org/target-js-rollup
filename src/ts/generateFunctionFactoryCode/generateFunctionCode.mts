@@ -49,8 +49,8 @@ export function generateFunctionCode(
 	code += `import {${factory_name} as factory} from "${path.join("#~synthetic", "user", source.output.factory)}"\n`
 	code += `\n`
 
-	code += `let __fnImplementation: any = null\n`
-	code += `\n`
+//	code += `let __fnImplementation: any = null\n`
+//	code += `\n`
 
 	if (fn.jsdoc.length) {
 		code += fn.jsdoc + "\n"
@@ -70,7 +70,7 @@ export function generateFunctionCode(
 	code += fn.params.slice(params_offset).map(param => param.definition).join(", ")
 	code += `) : ${fn.return_type} {\n`
 
-	code += `\tif (__fnImplementation === null) __fnImplementation = factory(createContext());\n`
+	code += `\tconst __fnImplementation = factory(createContext())\n`
 	code += `\n`
 	code += `\treturn ${is_async ? "await " : ""}__fnImplementation(${param_names})\n`
 	code += `}\n`
