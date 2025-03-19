@@ -1,36 +1,27 @@
 {
-  "name": "@fourtune/base-realm-js-and-web",
-  "version": "0.40000.1",
-  "description": "",
+  "name": "@enkore/realm-js-and-web-utils",
+  "version": "0.0.7",
   "author": "Anio Software <info@anio.software>",
+  "description": "Utilities shared between realm-js and realm-web.",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/fourtune-org/base-realm-js-and-web.git"
-  },
   "exports": {
     ".": {
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.mts"
+      "types": "./dist/default/index.d.mts",
+      "default": "./dist/default/index.mjs"
     }
   },
-  "dependencies": {
-    "@aniojs/node-ts-utils": "^0.3.0",
-    "@babel/core": "^7.26.0",
-    "@babel/parser": "^7.26.1",
-    "@babel/preset-typescript": "^7.26.0",
-    "@babel/traverse": "^7.25.9",
-    "@rollup/plugin-commonjs": "^28.0.2",
-    "@rollup/plugin-node-resolve": "^15.3.0",
-    "@rollup/plugin-terser": "^0.4.4",
-    "@rollup/plugin-virtual": "^3.0.2",
-    "rollup": "^4.27.4",
-    "rollup-plugin-dts": "^6.1.1",
-    "typescript": "^5.7.2"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/enkore-org/realm-js-and-web-utils.git"
   },
+  "type": "module",
   "devDependencies": {
-    "@fourtune/types": "^0.90000.0",
-    "@types/node": "^22.7.7"
+    "@fourtune/core": "^0.1101.0",
+    "@fourtune/realm-js": "^1.0.4",
+    "fourtune": "^0.30000.1"
+  },
+  "scripts": {
+    "prepare": "./node_modules/.bin/fourtune ."
   },
   "files": [
     "./dist/"
