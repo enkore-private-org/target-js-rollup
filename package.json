@@ -20,17 +20,17 @@
     "@fourtune/realm-js": "^1.0.4",
     "fourtune": "^0.30000.1"
   },
-  "scripts": {
-    "prepare": "./node_modules/.bin/fourtune ."
-  },
-  "files": [
-    "./dist/"
-  ],
   "dependencies": {
     "@rollup/plugin-node-resolve": "^16.0.1",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-virtual": "^3.0.2",
     "rollup": "^4.36.0",
     "rollup-plugin-dts": "^6.2.0"
-  }
+  },
+  "scripts": {
+    "prepare": "./node_modules/.bin/fourtune ."
+  },
+  "files": [
+    "./dist/"
+  ]
 }
