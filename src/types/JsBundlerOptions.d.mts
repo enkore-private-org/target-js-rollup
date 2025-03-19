@@ -6,8 +6,6 @@ export type JsBundlerPlugin = {
 }
 
 export type JsBundlerOptions = {
-	inputFileType?: JsBundlerInputFileType
-
 	minify?: boolean
 	treeshake?: boolean
 	externals?: string[]
