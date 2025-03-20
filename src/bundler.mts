@@ -32,8 +32,6 @@ export async function bundler(
 			format: "es"
 		}
 
-		const rollupPlugins: RollupPlugin[] = []
-
 		const {onRollupLogFunction} = options
 		let onLog: RollupOptions["onLog"]|undefined = undefined
 
@@ -42,6 +40,8 @@ export async function bundler(
 				onRollupLogFunction(level, message)
 			}
 		}
+
+		const rollupPlugins: RollupPlugin[] = []
 
 		if (inputFileType === "mjs") {
 			// @ts-ignore:next-line
