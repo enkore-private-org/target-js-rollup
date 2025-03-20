@@ -11,6 +11,7 @@ import {
 
 import virtual from "@rollup/plugin-virtual"
 import nodeResolve from "@rollup/plugin-node-resolve"
+import commonJs from "@rollup/plugin-commonjs"
 import terser from "@rollup/plugin-terser"
 
 export type BundlerInputFileType = "mjs" | "dts"
@@ -77,6 +78,8 @@ export async function bundler(
 		if (inputFileType === "mjs") {
 			// @ts-ignore:next-line
 			rollupPlugins.push(nodeResolve())
+			// @ts-ignore:next-line
+			rollupPlugins.push(commonJs())
 		} else {
 			// todo: implement dts bundling
 		}
