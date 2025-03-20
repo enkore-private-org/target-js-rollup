@@ -2,9 +2,10 @@ import type {
 	JsBundlerOptions
 } from "#~src/types/JsBundlerOptions.d.mts"
 
-import type {
-	OutputOptions as RollupOutputOptions,
-	RollupOptions
+import {
+	type OutputOptions as RollupOutputOptions,
+	type RollupOptions,
+	rollup
 } from "rollup"
 
 export type BundlerInputFileType = "mjs" | "dts"
@@ -31,7 +32,11 @@ export async function bundler(
 			output: rollupOutputOptions
 		}
 
-		return ""
+		const bundle = await rollup(rollupOptions)
+
+		const {output} = await bundle.generate(rollupOutputOptions)
+
+		return output[0].code
 	} finally {
 		process.chdir(savedCWD)
 	}
