@@ -31,10 +31,20 @@ export async function bundler(
 
 		const rollupPlugins: RollupPlugin[] = []
 
+		const {onRollupLogFunction} = options
+		let onLog: RollupOptions["onLog"]|undefined = undefined
+
+		if (typeof onRollupLogFunction === "function") {
+			onLog = (level, {message}) => {
+				onRollupLogFunction(level, message)
+			}
+		}
+
 		const rollupOptions: RollupOptions = {
 			output: rollupOutputOptions,
 			plugins: rollupPlugins,
-			treeshake: options.treeshake === true
+			treeshake: options.treeshake === true,
+			onLog
 		}
 
 		const bundle = await rollup(rollupOptions)
