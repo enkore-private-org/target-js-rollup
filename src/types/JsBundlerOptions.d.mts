@@ -1,5 +1,3 @@
-export type JsBundlerInputFileType = "mjs" | "dts"
-
 export type JsBundlerPlugin = {
 	when: "pre" | "post"
 	plugin: any
