@@ -1,6 +1,6 @@
 export type JsBundlerPlugin = {
 	when: "pre" | "post"
-	plugin: any
+	plugin: (...args: any[]) => any
 }
 
 export type JsBundlerOptions = {
