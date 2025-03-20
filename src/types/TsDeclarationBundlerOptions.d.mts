@@ -1,4 +1,4 @@
 export type TsDeclarationBundlerOptions = {
 	externals?: string[]
-	onRollupLogFunction?: ((...args: any[]) => any)|undefined
+	onRollupLogFunction?: ((level: string, message: string) => undefined)|undefined
 }

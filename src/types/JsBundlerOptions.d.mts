@@ -9,5 +9,5 @@ export type JsBundlerOptions = {
 	externals?: string[]
 
 	additionalPlugins?: JsBundlerPlugin[]
-	onRollupLogFunction?: ((...args: any[]) => any)|undefined
+	onRollupLogFunction?: ((level: string, message: string) => undefined)|undefined
 }
