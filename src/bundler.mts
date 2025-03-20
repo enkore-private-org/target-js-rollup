@@ -4,6 +4,7 @@ import type {
 
 import {
 	type OutputOptions as RollupOutputOptions,
+	type Plugin as RollupPlugin,
 	type RollupOptions,
 	rollup
 } from "rollup"
@@ -28,8 +29,11 @@ export async function bundler(
 			format: "es"
 		}
 
+		const rollupPlugins: RollupPlugin[] = []
+
 		const rollupOptions: RollupOptions = {
-			output: rollupOutputOptions
+			output: rollupOutputOptions,
+			plugins: rollupPlugins
 		}
 
 		const bundle = await rollup(rollupOptions)
