@@ -98,6 +98,13 @@ export async function bundler(
 				projectRoot, path.join(projectRoot, "tsconfig", "base.json")
 			)
 
+			delete compilerOptions.baseUrl
+			delete compilerOptions.paths
+
+			compilerOptions.declaration = true
+			compilerOptions.emitDeclarationOnly = true
+			compilerOptions.skipLibCheck = false
+
 			rollupPlugins.push(dts({
 				respectExternal: true,
 				compilerOptions
