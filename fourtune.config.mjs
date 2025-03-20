@@ -6,7 +6,10 @@ export default {
 		options: {
 			runtime: "node",
 			external_npm_packages: [
-				"rollup"
+				"rollup",
+				"@rollup/plugin-virtual",
+				"@rollup/plugin-node-resolve",
+				"@rollup/plugin-terser"
 			]
 		}
 	}
