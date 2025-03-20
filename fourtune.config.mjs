@@ -6,9 +6,7 @@ export default {
 		options: {
 			runtime: "node",
 			external_npm_packages: [
-				"typescript",
-				"@babel/core",
-				"@babel/preset-typescript"
+				"rollup"
 			]
 		}
 	}
