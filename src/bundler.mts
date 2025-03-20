@@ -9,6 +9,7 @@ import {
 	rollup
 } from "rollup"
 
+import nodeResolve from "@rollup/plugin-node-resolve"
 import terser from "@rollup/plugin-terser"
 
 export type BundlerInputFileType = "mjs" | "dts"
@@ -40,6 +41,13 @@ export async function bundler(
 			onLog = (level, {message}) => {
 				onRollupLogFunction(level, message)
 			}
+		}
+
+		if (inputFileType === "mjs") {
+			// @ts-ignore:next-line
+			rollupPlugins.push(nodeResolve())
+		} else {
+			// todo: implement dts bundling
 		}
 
 		if (options.minify === true && inputFileType === "mjs") {
