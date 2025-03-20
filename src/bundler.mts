@@ -9,10 +9,19 @@ import {
 	rollup
 } from "rollup"
 
+import virtual from "@rollup/plugin-virtual"
 import nodeResolve from "@rollup/plugin-node-resolve"
 import terser from "@rollup/plugin-terser"
 
 export type BundlerInputFileType = "mjs" | "dts"
+
+function getVirtualEntryPath(inputFileType: BundlerInputFileType) {
+	if (inputFileType === "dts") {
+		return "virtualEntry.d.mts"
+	}
+
+	return "virtualEntry.mjs"
+}
 
 export async function bundler(
 	inputFileType: BundlerInputFileType,
@@ -43,6 +52,14 @@ export async function bundler(
 
 		const rollupPlugins: RollupPlugin[] = []
 
+		const virtualEntryPath = getVirtualEntryPath(inputFileType)
+		const virtualEntriesObject = {
+			[virtualEntryPath]: entryCode
+		}
+
+		// @ts-ignore:next-line
+		rollupPlugins.push(virtual(virtualEntriesObject))
+
 		if (inputFileType === "mjs") {
 			// @ts-ignore:next-line
 			rollupPlugins.push(nodeResolve())
@@ -56,6 +73,7 @@ export async function bundler(
 		}
 
 		const rollupOptions: RollupOptions = {
+			input: virtualEntryPath,
 			output: rollupOutputOptions,
 			plugins: rollupPlugins,
 			treeshake: options.treeshake === true,
