@@ -33,7 +33,8 @@ export async function bundler(
 
 		const rollupOptions: RollupOptions = {
 			output: rollupOutputOptions,
-			plugins: rollupPlugins
+			plugins: rollupPlugins,
+			treeshake: options.treeshake === true
 		}
 
 		const bundle = await rollup(rollupOptions)
