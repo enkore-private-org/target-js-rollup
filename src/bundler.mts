@@ -1,5 +1,6 @@
 import type {
-	JsBundlerOptions
+	JsBundlerOptions,
+	JsBundlerPlugin
 } from "#~src/types/JsBundlerOptions.d.mts"
 
 import {
@@ -22,6 +23,14 @@ function getVirtualEntryPath(inputFileType: BundlerInputFileType) {
 	}
 
 	return "virtualEntry.mjs"
+}
+
+function filterPlugins(plugins: JsBundlerPlugin[]|undefined, what: "pre" | "post") {
+	if (!plugins) return []
+
+	return plugins.filter(x => {
+		return x.when === what
+	}).map(x => x.plugin)
 }
 
 export async function bundler(
@@ -92,7 +101,11 @@ export async function bundler(
 		const rollupOptions: RollupOptions = {
 			input: virtualEntryPath,
 			output: rollupOutputOptions,
-			plugins: rollupPlugins,
+			plugins: [
+				...filterPlugins(options.additionalPlugins, "pre"),
+				...rollupPlugins,
+				...filterPlugins(options.additionalPlugins, "post")
+			],
 			treeshake: options.treeshake === true,
 			onLog
 		}
