@@ -10,5 +10,16 @@ export async function bundler(
 	entryCode: string,
 	options: JsBundlerOptions
 ): Promise<string> {
-	return ""
+	const savedCWD = process.cwd()
+
+	//
+	// needed to make node resolve work properly
+	//
+	process.chdir(projectRoot)
+
+	try {
+		return ""
+	} finally {
+		process.chdir(savedCWD)
+	}
 }
