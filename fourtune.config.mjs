@@ -10,7 +10,8 @@ export default {
 				"@rollup/plugin-virtual",
 				"@rollup/plugin-node-resolve",
 				"@rollup/plugin-commonjs",
-				"@rollup/plugin-terser"
+				"@rollup/plugin-terser",
+				"rollup-plugin-dts"
 			]
 		}
 	}
