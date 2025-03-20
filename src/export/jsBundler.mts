@@ -1,5 +1,5 @@
 import type {JsBundlerOptions} from "./JsBundlerOptions.d.mts"
-import {jsBundler as impl} from "#~src/jsBundler.mts"
+import {bundler} from "#~src/bundler.mts"
 
 export async function jsBundler(
 	projectRoot: string,
@@ -20,7 +20,7 @@ export async function jsBundler(
 		onRollupLogFunction
 	} = options
 
-	return await impl("mjs", projectRoot, entryCode, {
+	return await bundler("mjs", projectRoot, entryCode, {
 		minify,
 		treeshake,
 		externals,

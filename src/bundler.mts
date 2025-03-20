@@ -3,7 +3,7 @@ import type {
 	JsBundlerOptions
 } from "#~src/types/JsBundlerOptions.d.mts"
 
-export async function jsBundler(
+export async function bundler(
 	inputFileType: JsBundlerInputFileType,
 	projectRoot: string,
 	entryCode: string,

@@ -1,5 +1,5 @@
 import type {TsDeclarationBundlerOptions} from "./TsDeclarationBundlerOptions.d.mts"
-import {jsBundler} from "#~src/jsBundler.mts"
+import {bundler} from "#~src/bundler.mts"
 
 export async function tsDeclarationBundler(
 	projectRoot: string,
@@ -14,7 +14,7 @@ export async function tsDeclarationBundler(
 		onRollupLogFunction
 	} = options
 
-	return await jsBundler("dts", projectRoot, entryCode, {
+	return await bundler("dts", projectRoot, entryCode, {
 		externals,
 		onRollupLogFunction
 	})
