@@ -9,6 +9,8 @@ import {
 	rollup
 } from "rollup"
 
+import terser from "@rollup/plugin-terser"
+
 export type BundlerInputFileType = "mjs" | "dts"
 
 export async function bundler(
@@ -38,6 +40,11 @@ export async function bundler(
 			onLog = (level, {message}) => {
 				onRollupLogFunction(level, message)
 			}
+		}
+
+		if (options.minify === true && inputFileType === "mjs") {
+			// @ts-ignore:next-line
+			rollupPlugins.push(terser())
 		}
 
 		const rollupOptions: RollupOptions = {
