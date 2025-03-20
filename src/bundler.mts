@@ -50,15 +50,14 @@ export async function bundler(
 			}
 		}
 
-		const rollupPlugins: RollupPlugin[] = []
-
 		const virtualEntryPath = getVirtualEntryPath(inputFileType)
-		const virtualEntriesObject = {
-			[virtualEntryPath]: entryCode
-		}
 
-		// @ts-ignore:next-line
-		rollupPlugins.push(virtual(virtualEntriesObject))
+		const rollupPlugins: RollupPlugin[] = [
+			// @ts-ignore:next-line
+			virtual({
+				[virtualEntryPath]: entryCode
+			})
+		]
 
 		if (inputFileType === "mjs") {
 			// @ts-ignore:next-line
