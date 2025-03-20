@@ -11,6 +11,7 @@ export default {
 				"@rollup/plugin-node-resolve",
 				"@rollup/plugin-commonjs",
 				"@rollup/plugin-terser",
+				"@aniojs/node-ts-utils",
 				"rollup-plugin-dts"
 			]
 		}
