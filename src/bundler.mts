@@ -10,6 +10,9 @@ import {
 	rollup
 } from "rollup"
 
+import path from "node:path"
+import {readTSConfigFile} from "@aniojs/node-ts-utils"
+
 import virtual from "@rollup/plugin-virtual"
 import nodeResolve from "@rollup/plugin-node-resolve"
 import commonJs from "@rollup/plugin-commonjs"
@@ -91,11 +94,13 @@ export async function bundler(
 			// @ts-ignore:next-line
 			rollupPlugins.push(commonJs())
 		} else {
+			const {compilerOptions} = readTSConfigFile(
+				projectRoot, path.join(projectRoot, "tsconfig", "base.json")
+			)
+
 			rollupPlugins.push(dts({
 				respectExternal: true,
-				compilerOptions: {
-					// todo: read compiler options
-				}
+				compilerOptions
 			}))
 		}
 
