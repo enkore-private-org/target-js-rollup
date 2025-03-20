@@ -59,6 +59,21 @@ export async function bundler(
 			})
 		]
 
+		if (options.externals) {
+			const {externals} = options
+
+			rollupPlugins.push({
+				name: "enkore-externals-plugin",
+				resolveId(id) {
+					if (externals.includes(id)) {
+						return {id, external: true}
+					}
+
+					return null
+				}
+			})
+		}
+
 		if (inputFileType === "mjs") {
 			// @ts-ignore:next-line
 			rollupPlugins.push(nodeResolve())
