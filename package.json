@@ -24,9 +24,6 @@
     "rollup": "^4.36.0",
     "rollup-plugin-dts": "^6.2.0"
   },
-  "scripts": {
-    "prepare": "./node_modules/.bin/fourtune ."
-  },
   "files": [
     "./dist/"
   ],
