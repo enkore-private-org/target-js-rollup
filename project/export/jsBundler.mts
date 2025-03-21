@@ -1,4 +1,4 @@
-import type {JsBundlerOptions} from "./JsBundlerOptions.d.mts"
+import type {JsBundlerOptions} from "./JsBundlerOptions.mts"
 import {bundler} from "#~src/bundler.mts"
 
 export async function jsBundler(

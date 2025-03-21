@@ -1,7 +1,7 @@
 import type {
 	JsBundlerOptions,
 	JsBundlerPlugin
-} from "#~src/types/JsBundlerOptions.d.mts"
+} from "#~src/types/JsBundlerOptions.mts"
 
 import {
 	type OutputOptions as RollupOutputOptions,

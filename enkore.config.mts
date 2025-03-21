@@ -1,11 +1,15 @@
-export default {
+import {defineConfig} from "enkore"
+import {defineRealmConfig} from "@enkore/realm-js"
+
+export default defineConfig({
 	realm: {
 		name: "js",
-		type: "package",
-
-		options: {
+		config: defineRealmConfig({
 			runtime: "node",
-			external_npm_packages: [
+			createTypesPackage: {
+				orgName: "@enkore-types"
+			},
+			externalPackages: [
 				"rollup",
 				"@rollup/plugin-virtual",
 				"@rollup/plugin-node-resolve",
@@ -14,6 +18,6 @@ export default {
 				"@aniojs/node-ts-utils",
 				"rollup-plugin-dts"
 			]
-		}
+		})
 	}
-}
+})

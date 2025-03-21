@@ -1,4 +1,4 @@
-import type {TsDeclarationBundlerOptions} from "./TsDeclarationBundlerOptions.d.mts"
+import type {TsDeclarationBundlerOptions} from "./TsDeclarationBundlerOptions.mts"
 import {bundler} from "#~src/bundler.mts"
 
 export async function tsDeclarationBundler(
