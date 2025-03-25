@@ -6,6 +6,7 @@ export default defineConfig({
 		name: "js",
 		config: defineRealmConfig({
 			runtime: "node",
+			publishWithExactDependencyVersions: true,
 			createTypesPackage: {
 				orgName: "@enkore-types"
 			},
