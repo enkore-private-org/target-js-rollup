@@ -1,6 +1,8 @@
+import type {Plugin as RollupPlugin} from "rollup"
+
 export type JsBundlerPlugin = {
 	when: "pre" | "post"
-	plugin: (...args: any[]) => any
+	plugin: RollupPlugin
 }
 
 export type JsBundlerOptions = {
