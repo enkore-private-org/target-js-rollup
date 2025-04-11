@@ -1,11 +1,12 @@
-import {defineConfig} from "enkore"
-import {defineRealmConfig} from "@enkore/realm-js"
+import {
+	createConfig,
+	createTargetJSNodeOptions
+} from "enkore/spec/factory"
 
-export default defineConfig({
-	realm: {
-		name: "js",
-		config: defineRealmConfig({
-			runtime: "node",
+export default createConfig({
+	target: {
+		name: "js-node",
+		options: createTargetJSNodeOptions({
 			publishWithExactDependencyVersions: true,
 			createTypesPackage: {
 				orgName: "@enkore-types"
