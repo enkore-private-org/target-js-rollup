@@ -1,2 +1,2 @@
-# @enkore/rollup
+# @enkore-private/target-js-rollup
 
