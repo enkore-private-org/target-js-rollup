@@ -10,7 +10,7 @@
   },
   "type": "module",
   "dependencies": {
-    "@aniojs/node-ts-utils": "^0.120.0",
+    "@aniojs/node-ts-utils": "^0.200.2",
     "@rollup/plugin-commonjs": "^28.0.3",
     "@rollup/plugin-node-resolve": "^16.0.1",
     "@rollup/plugin-terser": "^0.4.4",
