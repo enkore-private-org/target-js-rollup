@@ -8,9 +8,6 @@ export default createConfig({
 		name: "js-node",
 		options: createTargetJSNodeOptions({
 			publishWithExactDependencyVersions: true,
-			createTypesPackage: {
-				orgName: "@enkore-types"
-			},
 			externalPackages: [
 				"rollup",
 				"@rollup/plugin-virtual",
