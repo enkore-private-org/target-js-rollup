@@ -1,4 +1,14 @@
-import type {Plugin as RollupPlugin} from "rollup"
+//
+// NB: simplified type, in order to not have to include
+// all types defined in the "rollup" package
+//
+type RollupPlugin = {
+	name: string
+
+	intro?: () => string
+	resolveId?: (id: string) => string|null
+	load?: (id: string) => string|null
+}
 
 export type JsBundlerPlugin = {
 	when: "pre" | "post"
