@@ -1,6 +1,14 @@
 import type {TsDeclarationBundlerOptions} from "./TsDeclarationBundlerOptions.mts"
 import {bundler} from "#~src/bundler.mts"
 
+function removeConsecutiveEmptyLines(str: string): string {
+	while (str.indexOf("\n\n") !== -1) {
+		str = str.split("\n\n").join("\n")
+	}
+
+	return str
+}
+
 export async function tsDeclarationBundler(
 	projectRoot: string,
 	entryCode: string,
@@ -14,8 +22,11 @@ export async function tsDeclarationBundler(
 		onRollupLogFunction
 	} = options
 
-	return await bundler("dts", projectRoot, entryCode, {
+	// for some reason this emits a lot of empty lines
+	const bundle = await bundler("dts", projectRoot, entryCode, {
 		externals,
 		onRollupLogFunction
 	})
+
+	return removeConsecutiveEmptyLines(bundle)
 }
