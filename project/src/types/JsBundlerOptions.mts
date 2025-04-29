@@ -6,8 +6,9 @@ type RollupPlugin = {
 	name: string
 
 	intro?: () => string
-	resolveId?: (id: string) => string|null
-	load?: (id: string) => string|null
+	resolveId?: (id: string) => string|null|Promise<string|null>
+	load?: (id: string) => string|null|Promise<string|null>
+	transform?: (code: string, id: string) => string|null|Promise<string|null>
 }
 
 export type JsBundlerPlugin = {
