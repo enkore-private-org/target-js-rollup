@@ -23,10 +23,10 @@ export type BundlerInputFileType = "js" | "dts"
 
 function getVirtualEntryPath(inputFileType: BundlerInputFileType) {
 	if (inputFileType === "dts") {
-		return "virtualEntry.d.mts"
+		return "virtualEntry.d.ts"
 	}
 
-	return "virtualEntry.mjs"
+	return "virtualEntry.js"
 }
 
 function filterPlugins(plugins: JsBundlerPlugin[]|undefined, what: "pre" | "post") {
