@@ -20,7 +20,7 @@ export async function jsBundler(
 		onRollupLogFunction
 	} = options
 
-	return await bundler("mjs", projectRoot, entryCode, {
+	return await bundler("js", projectRoot, entryCode, {
 		minify,
 		treeshake,
 		externals,

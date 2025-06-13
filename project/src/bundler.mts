@@ -19,7 +19,7 @@ import commonJs from "@rollup/plugin-commonjs"
 import dts from "rollup-plugin-dts"
 import terser from "@rollup/plugin-terser"
 
-export type BundlerInputFileType = "mjs" | "dts"
+export type BundlerInputFileType = "js" | "dts"
 
 function getVirtualEntryPath(inputFileType: BundlerInputFileType) {
 	if (inputFileType === "dts") {
@@ -88,7 +88,7 @@ export async function bundler(
 			})
 		}
 
-		if (inputFileType === "mjs") {
+		if (inputFileType === "js") {
 			// @ts-ignore:next-line
 			rollupPlugins.push(nodeResolve())
 			// @ts-ignore:next-line
@@ -111,7 +111,7 @@ export async function bundler(
 			}))
 		}
 
-		if (options.minify === true && inputFileType === "mjs") {
+		if (options.minify === true && inputFileType === "js") {
 			// @ts-ignore:next-line
 			rollupPlugins.push(terser())
 		}
