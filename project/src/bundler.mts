@@ -19,6 +19,8 @@ import commonJs from "@rollup/plugin-commonjs"
 import dts from "rollup-plugin-dts"
 import terser from "@rollup/plugin-terser"
 
+import {isString} from "@anio-software/pkg.is"
+
 export type BundlerInputFileType = "js" | "dts"
 
 function getVirtualEntryPath(inputFileType: BundlerInputFileType) {
@@ -51,8 +53,18 @@ export async function bundler(
 	process.chdir(projectRoot)
 
 	try {
+		const outputFormat: "es" | "iife" = (() => {
+			if (inputFileType === "js") {
+				if (isString(options?.outputFormat)) {
+					return options.outputFormat
+				}
+			}
+
+			return "es"
+		})()
+
 		const rollupOutputOptions: RollupOutputOptions = {
-			format: "es"
+			format: outputFormat
 		}
 
 		const {onRollupLogFunction} = options

@@ -17,6 +17,7 @@ export type JsBundlerPlugin = {
 }
 
 export type JsBundlerOptions = {
+	outputFormat?: "es" | "iife"
 	minify?: boolean
 	treeshake?: boolean
 	externals?: string[]
