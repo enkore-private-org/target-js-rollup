@@ -5,6 +5,7 @@ export async function jsBundler(
 	projectRoot: string,
 	entryCode: string,
 	options: JsBundlerOptions = {
+		outputFormat: "es",
 		minify: false,
 		treeshake: false,
 		externals: [],
@@ -13,6 +14,7 @@ export async function jsBundler(
 	}
 ): Promise<string> {
 	const {
+		outputFormat,
 		minify,
 		treeshake,
 		externals,
@@ -21,6 +23,7 @@ export async function jsBundler(
 	} = options
 
 	return await bundler("js", projectRoot, entryCode, {
+		outputFormat,
 		minify,
 		treeshake,
 		externals,
